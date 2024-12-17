@@ -74,4 +74,17 @@ p {
       font-weight: 600;
     }
   }
+
+  .replys-container {
+    display: grid;
+    grid-template-columns: 0.5fr repeat(11, 1fr);
+    row-gap: 1rem;
+    .line {
+      grid-row: 1 / 100%;
+      border-left: solid 2px $Light-gray;
+    }
+    .reply-card {
+      grid-column: 2 / -1;
+    }
+  }
 }
