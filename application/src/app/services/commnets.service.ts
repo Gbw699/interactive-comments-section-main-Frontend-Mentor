@@ -16,6 +16,8 @@ export class CommnetsService {
       .get('http://localhost:4200/assets/data.json')
       .subscribe((value: any) => {
         this.commnets.set(value.comments);
+        console.log(this.commnets());
+        
       });
   }
 }

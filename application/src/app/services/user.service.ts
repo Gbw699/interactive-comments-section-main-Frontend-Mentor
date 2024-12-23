@@ -6,12 +6,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UserService {
-  private currentUser: WritableSignal<ICurrentUser | undefined> =
-    signal(undefined);
+  currentUser: WritableSignal<ICurrentUser | undefined> = signal(undefined);
 
   constructor(private http: HttpClient) {}
 
-  getComments() {
+  fetchCurrentUser() {
     this.http
       .get('http://localhost:4200/assets/data.json')
       .subscribe((value: any) => {

@@ -3,8 +3,14 @@
     <img src="../assets/images/avatars/image-amyrobson.png" alt="User image" />
   </div>
   <strong class="user-name">user-name</strong>
+  @if (true) {
+  <p class="label">you</p>
+  }
   <p class="publication-time">publication-time</p>
   <p class="publication-text">
+    <span class="reply-user-name">
+      {{ "@user-name" }}
+    </span>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium nam
     quis suscipit! Minima sed doloribus autem animi nisi alias eveniet! Cumque
     reprehenderit doloribus, qui saepe ut ad laborum ab voluptatem!
@@ -23,9 +29,21 @@
     />
   </div>
   <img
+    class="delete-icon"
+    src="../assets/images/icon-delete.svg"
+    alt="delete button"
+  />
+  <span class="delete-btn">Delete</span>
+  <img
+    class="edit-icon"
+    src="../assets/images/icon-edit.svg"
+    alt="edit button"
+  />
+  <span class="edit-btn">Edit</span>
+  <!-- <img
     class="reply-icon"
     src="../assets/images/icon-reply.svg"
-    alt="Reply button"
+    alt="reply button"
   />
-  <span class="reply-btn">Reply</span>
+  <span class="reply-btn">Reply</span> -->
 </div>
