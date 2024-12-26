@@ -2,18 +2,16 @@
   <div class="user-img">
     <img src="../assets/images/avatars/image-amyrobson.png" alt="User image" />
   </div>
-  <strong class="user-name">user-name</strong>
-  @if (true) {
+  <strong class="user-name">{{ comment().user.username }}</strong>
+  @if (currentUser()?.currentUser?.username === comment().user.username) {
   <p class="label">you</p>
   }
-  <p class="publication-time">publication-time</p>
+  <p class="publication-time">{{ comment().createdAt }}</p>
   <p class="publication-text">
     <span class="reply-user-name">
-      {{ "@user-name" }}
+      {{ comment().replyingTo }}
     </span>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium nam
-    quis suscipit! Minima sed doloribus autem animi nisi alias eveniet! Cumque
-    reprehenderit doloribus, qui saepe ut ad laborum ab voluptatem!
+    {{ comment().content }}
   </p>
   <div class="likes-container">
     <img
@@ -21,13 +19,14 @@
       src="../assets/images/icon-plus.svg"
       alt="Button to give a like"
     />
-    <span class="likes-number">5</span>
+    <span class="likes-number">{{ comment().score }}</span>
     <img
       class="minus-btn likes-btn"
       src="../assets/images/icon-minus.svg"
       alt="Button to take a like"
     />
   </div>
+  @if (currentUser()?.currentUser?.username === comment().user.username) {
   <img
     class="delete-icon"
     src="../assets/images/icon-delete.svg"
@@ -40,10 +39,12 @@
     alt="edit button"
   />
   <span class="edit-btn">Edit</span>
-  <!-- <img
+  } @else {
+  <img
     class="reply-icon"
     src="../assets/images/icon-reply.svg"
     alt="reply button"
   />
-  <span class="reply-btn">Reply</span> -->
+  <span class="reply-btn">Reply</span>
+  }
 </div>
