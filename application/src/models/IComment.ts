@@ -1,11 +1,11 @@
-export interface IComments {
+export interface IComment {
   id: number;
   content: string;
   createdAt: string;
   score: number;
   replyingTo?: string;
   user: User;
-  replies: IComments[];
+  replies: IComment[];
 }
 
 interface User {

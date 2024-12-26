@@ -1,7 +1,7 @@
 import { ICurrentUser } from './ICurrentUser';
-import { IComments } from './IComments';
+import { IComment } from './IComment';
 
 export interface IData {
   currentUser: ICurrentUser;
-  comments: IComments[];
+  comments: IComment[];
 }
