@@ -1,0 +1,46 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.card-container {
+  @include card-container;
+  .user-img {
+    @include user-img;
+  }
+  #text-area {
+    grid-column: 1 / 13;
+    padding: 0.5rem 1rem;
+    border: 2px solid;
+    border-radius: 5px;
+    border-color: $Very-light-gray;
+    min-height: 4rem;
+    height: min-content;
+    font-weight: 400;
+    resize: none;
+    &:focus-visible {
+      outline: none;
+      // border: none;
+      border-color: $Light-gray;
+    }
+  }
+  .error-text {
+    grid-column: 1 / 13;
+    color: $Soft-Red;
+    font-weight: 600;
+  }
+  .btn {
+    grid-column: 12 / 13;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: none;
+    color: $White;
+    background-color: $Moderate-blue;
+    border-radius: 10px;
+    &:disabled {
+      border: 2px solid;
+      border-color: $Moderate-blue;
+      background-color: $White;
+      color: $Moderate-blue;
+    }
+  }
+}

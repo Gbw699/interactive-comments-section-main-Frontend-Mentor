@@ -1,0 +1,37 @@
+<form
+  class="card-container"
+  [formGroup]="formGroup"
+  (ngSubmit)="publishComment($event)"
+>
+  <label for="text-area" hidden="true">Label for text-area input</label>
+  <textarea
+    id="text-area"
+    name="comment-input"
+    formControlName="inputValue"
+    type="text"
+    placeholder="Add a comment..."
+    wrap="hard"
+  ></textarea>
+  @if (formGroup.controls["inputValue"].touched &&
+  formGroup.controls["inputValue"].hasError("required")) {
+  <div class="error-text">
+    <span>This is required</span>
+  </div>
+  } @if (formGroup.controls["inputValue"].hasError("maxlength")) {
+  <div class="error-text">
+    <span>It must have less than 50 characters</span>
+  </div>
+  }
+  <div class="user-img">
+    <img
+      src="{{ currentUser()?.currentUser?.image?.webp }}"
+      alt="Current user image"
+    />
+  </div>
+  @if (!formGroup.controls["inputValue"].hasError("required") &&
+  !formGroup.controls["inputValue"].hasError("maxlength")) {
+  <button class="btn" type="submit">SEND</button>
+  } @else {
+  <button class="btn" type="submit" disabled="true">SEND</button>
+  }
+</form>
