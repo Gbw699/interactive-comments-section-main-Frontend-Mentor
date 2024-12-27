@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
+import { CommnetsService } from '../../services/commnets.service';
 
 @Component({
   selector: 'app-form-card',
@@ -29,10 +30,12 @@ export class FormCardComponent {
     ]),
   });
 
-  constructor(private user: UserService) {}
+  constructor(private user: UserService, private comments: CommnetsService) {}
 
   publishComment(event: any) {
     let result: string = this.formGroup.value.inputValue;
     this.formGroup.setValue({ inputValue: '' });
+
+    this.comments.addComment(result);
   }
 }
