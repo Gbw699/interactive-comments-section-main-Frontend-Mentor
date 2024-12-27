@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   constructor(private comments: CommnetsService, private user: UserService) {}
 
   ngOnInit(): void {
-    this.comments.getComments();
+    this.comments.fetchComments();
     this.user.fetchCurrentUser();
   }
 }

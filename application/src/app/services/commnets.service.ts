@@ -11,7 +11,7 @@ export class CommnetsService {
 
   constructor(private http: HttpClient) {}
 
-  getComments() {
+  fetchComments() {
     this.http
       .get('http://localhost:4200/assets/data.json')
       .subscribe((value: any) => {
