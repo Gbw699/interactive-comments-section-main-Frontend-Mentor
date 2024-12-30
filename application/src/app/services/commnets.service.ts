@@ -51,12 +51,55 @@ export class CommnetsService {
     this.publishedComments.set([...newPublishedComments]);
   }
 
+  replyComment(
+    id: number | undefined,
+    userToReply: string | undefined,
+    comment: string
+  ) {
+    let currentUser: any = this.user.currentUser()?.currentUser;
+    let publishedComments: any = this.publishedComments();
+    let lastId = this.getLastId(publishedComments);
+
+    let newReplyComment: IComment = {
+      id: lastId + 1,
+      content: comment,
+      createdAt: new Date().toLocaleDateString('en-US', {
+        day: '2-digit',
+        weekday: 'short',
+        month: 'short',
+        year: 'numeric',
+      }),
+      score: 0,
+      replyingTo: userToReply,
+      user: {
+        image: {
+          png: currentUser.image.png,
+          webp: currentUser.image.webp,
+        },
+        username: currentUser.username,
+      },
+    };
+
+    let newPublishedComments: IComment[] = [...publishedComments];
+
+    newPublishedComments.forEach((element) => {
+      if (element.id === id) {
+        element.replies = [
+          ...(element.replies ? element.replies : []),
+          newReplyComment,
+        ];
+      }
+    });
+
+    this.publishedComments.set([...newPublishedComments]);
+  }
+
   deleteComment(id: number) {
     let publishedComments: any = this.publishedComments();
 
     let newPublishedComments: IComment[] = publishedComments.filter(
       (comment: IComment) => {
-        comment.replies = comment.replies.filter((chieldComment: IComment) => {
+        comment.replies = comment.replies?.filter((chieldComment: IComment) => {
           return chieldComment.id !== id;
         });
         return comment.id !== id;
@@ -70,7 +113,7 @@ export class CommnetsService {
     let lastKnownId: number = 0;
 
     publishedComments.forEach((element) => {
-      element.replies.forEach((chieldElement) => {
+      element.replies?.forEach((chieldElement) => {
         if (chieldElement.id > lastKnownId) {
           lastKnownId = chieldElement.id;
         }

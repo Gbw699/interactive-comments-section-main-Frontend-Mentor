@@ -3,6 +3,9 @@ import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
 import { IComment } from '../../../models/IComment';
 import { CommnetsService } from '../../services/commnets.service';
+import { UserToReplyService } from '../../services/user-to-reply.service';
+import { CommentIdToReplyService } from '../../services/comment-id-to-reply.service';
+import { ReplyFlagService } from '../../services/reply-flag.service';
 
 @Component({
   selector: 'app-comments-card',
@@ -13,16 +16,26 @@ import { CommnetsService } from '../../services/commnets.service';
 })
 export class CommentsCardComponent {
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
-    return this.user.currentUser();
+    return this.userService.currentUser();
   });
   comment = input.required<IComment>();
- 
+  parentId = input.required<number>();
 
-  constructor(private user: UserService, private comments: CommnetsService) {
-  
+  constructor(
+    private userService: UserService,
+    private commentsService: CommnetsService,
+    private userToReplyService: UserToReplyService,
+    private commentIdToReplyService: CommentIdToReplyService,
+    private replyFlagService: ReplyFlagService
+  ) {}
+
+  setStatesToReply(userToReply: string) {
+    this.commentIdToReplyService.setCommentIdToReply(this.parentId());
+    this.userToReplyService.setUserToReply(userToReply);
+    this.replyFlagService.setReplyFlag(true);
   }
 
   deleteComment(id: number) {
-    this.comments.deleteComment(id);
+    this.commentsService.deleteComment(id);
   }
 }

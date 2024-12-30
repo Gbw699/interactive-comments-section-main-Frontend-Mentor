@@ -46,7 +46,10 @@
     class="reply-icon"
     src="../assets/images/icon-reply.svg"
     alt="reply button"
+    (click)="setStatesToReply(comment().user.username)"
   />
-  <span class="reply-btn">Reply</span>
+  <span class="reply-btn" (click)="setStatesToReply(comment().user.username)"
+    >Reply</span
+  >
   }
 </div>

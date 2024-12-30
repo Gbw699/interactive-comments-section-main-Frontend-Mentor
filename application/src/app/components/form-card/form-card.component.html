@@ -1,7 +1,7 @@
 <form
   class="card-container"
   [formGroup]="formGroup"
-  (ngSubmit)="publishComment($event)"
+  (ngSubmit)="replyFlag() ? replyComment() : publishComment()"
 >
   <label for="text-area" hidden="true">Label for text-area input</label>
   <textarea
