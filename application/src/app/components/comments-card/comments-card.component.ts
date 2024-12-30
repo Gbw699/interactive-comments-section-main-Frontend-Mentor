@@ -2,6 +2,7 @@ import { Component, computed, input, OnInit, Signal } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
 import { IComment } from '../../../models/IComment';
+import { CommnetsService } from '../../services/commnets.service';
 
 @Component({
   selector: 'app-comments-card',
@@ -10,13 +11,18 @@ import { IComment } from '../../../models/IComment';
   templateUrl: './comments-card.component.html',
   styleUrl: './comments-card.component.scss',
 })
-export class CommentsCardComponent implements OnInit {
+export class CommentsCardComponent {
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.user.currentUser();
   });
   comment = input.required<IComment>();
+ 
 
-  constructor(private user: UserService) {}
+  constructor(private user: UserService, private comments: CommnetsService) {
+  
+  }
 
-  ngOnInit(): void {}
+  deleteComment(id: number) {
+    this.comments.deleteComment(id);
+  }
 }

@@ -16,7 +16,7 @@ import { FormCardComponent } from './components/form-card/form-card.component';
 export class AppComponent implements OnInit {
   title = 'application';
   publishedCommnets = computed(() => {
-    return this.comments.publishedCommnets();
+    return this.comments.publishedComments();
   });
 
   constructor(private comments: CommnetsService, private user: UserService) {}

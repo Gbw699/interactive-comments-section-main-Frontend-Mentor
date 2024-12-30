@@ -1,12 +1,13 @@
 <div class="card-container">
   <div class="user-img">
-    <img src={{comment().user.image.webp}} alt="User image" />
+    <img src="{{ comment().user.image.webp }}" alt="User image" />
   </div>
   <strong class="user-name">{{ comment().user.username }}</strong>
   @if (currentUser()?.currentUser?.username === comment().user.username) {
   <p class="label">you</p>
-  }
+  } @if(comment().createdAt !== ""){
   <p class="publication-time">{{ comment().createdAt }}</p>
+  }
   <p class="publication-text">
     <span class="reply-user-name">
       {{ comment().replyingTo }}
@@ -31,8 +32,9 @@
     class="delete-icon"
     src="../assets/images/icon-delete.svg"
     alt="delete button"
+    (click)="deleteComment(comment().id)"
   />
-  <span class="delete-btn">Delete</span>
+  <span class="delete-btn" (click)="deleteComment(comment().id)">Delete</span>
   <img
     class="edit-icon"
     src="../assets/images/icon-edit.svg"

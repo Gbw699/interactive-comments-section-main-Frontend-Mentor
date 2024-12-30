@@ -8,7 +8,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class CommnetsService {
-  publishedCommnets: WritableSignal<IComment[] | undefined> = signal(undefined);
+  publishedComments: WritableSignal<IComment[] | undefined> = signal(undefined);
 
   constructor(private http: HttpClient, private user: UserService) {}
 
@@ -16,19 +16,25 @@ export class CommnetsService {
     this.http
       .get('http://localhost:4200/assets/data.json')
       .subscribe((value: any) => {
-        this.publishedCommnets.set([...value.comments]);
-        console.log(this.publishedCommnets());
+        this.publishedComments.set([...value.comments]);
+        console.log(this.publishedComments());
       });
   }
 
   addComment(comment: string) {
     let currentUser: any = this.user.currentUser()?.currentUser;
-    let publishedCommnets: any = this.publishedCommnets();
+    let publishedComments: any = this.publishedComments();
+    let lastId = this.getLastId(publishedComments);
 
     let newComment: IComment = {
-      id: publishedCommnets[publishedCommnets?.length - 1].id + 1,
+      id: lastId + 1,
       content: comment,
-      createdAt: '',
+      createdAt: new Date().toLocaleDateString('en-US', {
+        day: '2-digit',
+        weekday: 'short',
+        month: 'short',
+        year: 'numeric',
+      }),
       score: 0,
       user: {
         image: {
@@ -40,8 +46,40 @@ export class CommnetsService {
       replies: [],
     };
 
-    let newPublishedComments: IComment[] = [...publishedCommnets, newComment];
+    let newPublishedComments: IComment[] = [...publishedComments, newComment];
 
-    this.publishedCommnets.set([...newPublishedComments])
+    this.publishedComments.set([...newPublishedComments]);
+  }
+
+  deleteComment(id: number) {
+    let publishedComments: any = this.publishedComments();
+
+    let newPublishedComments: IComment[] = publishedComments.filter(
+      (comment: IComment) => {
+        comment.replies = comment.replies.filter((chieldComment: IComment) => {
+          return chieldComment.id !== id;
+        });
+        return comment.id !== id;
+      }
+    );
+
+    this.publishedComments.set([...newPublishedComments]);
+  }
+
+  private getLastId(publishedComments: IComment[]) {
+    let lastKnownId: number = 0;
+
+    publishedComments.forEach((element) => {
+      element.replies.forEach((chieldElement) => {
+        if (chieldElement.id > lastKnownId) {
+          lastKnownId = chieldElement.id;
+        }
+      });
+      if (element.id > lastKnownId) {
+        lastKnownId = element.id;
+      }
+    });
+
+    return lastKnownId;
   }
 }
