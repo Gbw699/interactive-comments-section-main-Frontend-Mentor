@@ -1,16 +1,19 @@
 <div class="global-container">
   <div class="flex-container">
-    <!-- Acá va el @for para los comentarios -->
     @for (item of publishedCommnets(); track $index) {
-    <app-comments-card [comment]="item"></app-comments-card>
-    <!-- Esta es la parte para las respuestas -->
-    @if (item.replies.length > 0) {
-    <!-- Acá va el @for para las respuestas -->
+    <app-comments-card
+      [comment]="item"
+      [parentId]="item.id"
+    ></app-comments-card>
+    @if (item.replies? item.replies.length : 0 > 0) {
     <div class="replys-container">
       <div class="line"></div>
       <div class="replies-cards">
         @for (replyItem of item.replies; track $index) {
-        <app-comments-card [comment]="replyItem"></app-comments-card>
+        <app-comments-card
+          [comment]="replyItem"
+          [parentId]="item.id"
+        ></app-comments-card>
         }
       </div>
     </div>

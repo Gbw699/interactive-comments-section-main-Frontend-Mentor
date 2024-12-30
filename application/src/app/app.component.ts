@@ -1,8 +1,9 @@
 import { Component, computed, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { CommnetsService } from './services/commnets.service';
-import { CommaExpr } from '@angular/compiler';
 import { UserService } from './services/user.service';
+
 import { CommentsCardComponent } from './components/comments-card/comments-card.component';
 import { FormCardComponent } from './components/form-card/form-card.component';
 

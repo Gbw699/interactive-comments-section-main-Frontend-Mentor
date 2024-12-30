@@ -10,6 +10,5 @@ export class CommentIdToReplyService {
 
   setCommentIdToReply(commentIdToReply: number) {
     this.commentIdToReply.set(commentIdToReply);
-    debugger
   }
 }

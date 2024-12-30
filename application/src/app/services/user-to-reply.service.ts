@@ -8,8 +8,7 @@ export class UserToReplyService {
 
   constructor() {}
 
-  setUserToReply(newUserToReply: string){
-    this.userToReply.set(newUserToReply)
-    debugger
+  setUserToReply(newUserToReply: string) {
+    this.userToReply.set(newUserToReply);
   }
 }

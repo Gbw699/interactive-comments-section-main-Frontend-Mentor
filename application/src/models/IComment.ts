@@ -5,7 +5,7 @@ export interface IComment {
   score: number;
   replyingTo?: string;
   user: User;
-  replies: IComment[];
+  replies?: IComment[];
 }
 
 interface User {
