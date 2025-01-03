@@ -39,8 +39,9 @@
     class="edit-icon"
     src="../assets/images/icon-edit.svg"
     alt="edit button"
+    (click)="setStatesToEdit()"
   />
-  <span class="edit-btn">Edit</span>
+  <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
   } @else {
   <img
     class="reply-icon"

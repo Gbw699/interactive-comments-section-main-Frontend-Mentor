@@ -51,6 +51,25 @@ export class CommnetsService {
     this.publishedComments.set([...newPublishedComments]);
   }
 
+  editComment(id: number | undefined, comment: string) {
+    let publishedComments: any = this.publishedComments();
+
+    let newPublishedComments: IComment[] = [...publishedComments];
+
+    newPublishedComments.forEach((element) => {
+      element.replies?.forEach((childElement) => {
+        if (childElement.id === id) {
+          childElement.content = comment;
+        }
+      });
+      if (element.id === id) {
+        element.content = comment;
+      }
+    });
+
+    this.publishedComments.set([...newPublishedComments]);
+  }
+
   replyComment(
     id: number | undefined,
     userToReply: string | undefined,

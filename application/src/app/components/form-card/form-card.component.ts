@@ -11,8 +11,9 @@ import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
 import { CommnetsService } from '../../services/commnets.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
-import { CommentIdToReplyService } from '../../services/comment-id-to-reply.service';
+import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
+import { EditFlagService } from '../../services/edit-flag.service';
 
 @Component({
   selector: 'app-form-card',
@@ -25,14 +26,17 @@ export class FormCardComponent {
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.userSerivce.currentUser();
   });
-  replyFlag: Signal<boolean> = computed(() => {
+  private replyFlag: Signal<boolean> = computed(() => {
     return this.replyFlagService.replyFlag();
+  });
+  private editFlag: Signal<boolean> = computed(() => {
+    return this.editFlagService.editFlag();
   });
   private userToReply: Signal<string | undefined> = computed(() => {
     return this.userToReplySerivce.userToReply();
   });
   private commentIdToReply: Signal<number | undefined> = computed(() => {
-    return this.commentIdToReplySerivce.commentIdToReply();
+    return this.idReferenceService.idReference();
   });
 
   formGroup: FormGroup = new FormGroup({
@@ -46,25 +50,45 @@ export class FormCardComponent {
     private userSerivce: UserService,
     private commentsService: CommnetsService,
     private userToReplySerivce: UserToReplyService,
-    private commentIdToReplySerivce: CommentIdToReplyService,
-    private replyFlagService: ReplyFlagService
+    private idReferenceService: IdReferenceService,
+    private replyFlagService: ReplyFlagService,
+    private editFlagService: EditFlagService
   ) {}
 
-  publishComment() {
-    let result: string = this.formGroup.value.inputValue;
-    this.formGroup.setValue({ inputValue: '' });
-
-    this.commentsService.addComment(result);
+  conditionalSubmit() {
+    if (this.editFlag()) {
+      this.editComment();
+    } else if (this.replyFlag()) {
+      this.replyComment();
+    } else {
+      this.publishComment();
+    }
   }
 
-  replyComment() {
-    let result: string = this.formGroup.value.inputValue;
+  private publishComment() {
+    let inputComment: string = this.formGroup.value.inputValue;
+    this.formGroup.setValue({ inputValue: '' });
+
+    this.commentsService.addComment(inputComment);
+  }
+
+  private editComment() {
+    let inputComment: string = this.formGroup.value.inputValue;
+    this.formGroup.setValue({ inputValue: '' });
+
+    this.commentsService.editComment(this.commentIdToReply(), inputComment);
+
+    this.editFlagService.setEditFlag(false)
+  }
+
+  private replyComment() {
+    let inputComment: string = this.formGroup.value.inputValue;
     this.formGroup.setValue({ inputValue: '' });
 
     this.commentsService.replyComment(
       this.commentIdToReply(),
       this.userToReply(),
-      result
+      inputComment
     );
 
     this.replyFlagService.setReplyFlag(false);

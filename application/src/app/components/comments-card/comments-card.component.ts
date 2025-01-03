@@ -4,8 +4,9 @@ import { ICurrentUser } from '../../../models/ICurrentUser';
 import { IComment } from '../../../models/IComment';
 import { CommnetsService } from '../../services/commnets.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
-import { CommentIdToReplyService } from '../../services/comment-id-to-reply.service';
+import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
+import { EditFlagService } from '../../services/edit-flag.service';
 
 @Component({
   selector: 'app-comments-card',
@@ -25,14 +26,22 @@ export class CommentsCardComponent {
     private userService: UserService,
     private commentsService: CommnetsService,
     private userToReplyService: UserToReplyService,
-    private commentIdToReplyService: CommentIdToReplyService,
-    private replyFlagService: ReplyFlagService
+    private idReferenceService: IdReferenceService,
+    private replyFlagService: ReplyFlagService,
+    private editFlagService: EditFlagService
   ) {}
 
+  setStatesToEdit() {
+    this.idReferenceService.setIdReference(this.comment().id)
+    this.editFlagService.setEditFlag(true);
+    this.replyFlagService.setReplyFlag(false);
+  }
+
   setStatesToReply(userToReply: string) {
-    this.commentIdToReplyService.setCommentIdToReply(this.parentId());
+    this.idReferenceService.setIdReference(this.parentId());
     this.userToReplyService.setUserToReply(userToReply);
     this.replyFlagService.setReplyFlag(true);
+    this.editFlagService.setEditFlag(false);
   }
 
   deleteComment(id: number) {
