@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CommnetsService {
+export class CommentsService {
   publishedComments: WritableSignal<IComment[] | undefined> = signal(undefined);
 
   constructor(private http: HttpClient, private user: UserService) {}

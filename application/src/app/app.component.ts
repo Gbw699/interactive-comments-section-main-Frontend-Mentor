@@ -1,7 +1,7 @@
 import { Component, computed, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { CommnetsService } from './services/commnets.service';
+import { CommnetsService } from './services/comments.service';
 import { UserService } from './services/user.service';
 
 import { CommentsCardComponent } from './components/comments-card/comments-card.component';

@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
-import { CommnetsService } from '../../services/commnets.service';
+import { CommentsService } from '../../services/comments.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
 import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
@@ -48,7 +48,7 @@ export class FormCardComponent {
 
   constructor(
     private userSerivce: UserService,
-    private commentsService: CommnetsService,
+    private commentsService: CommentsService,
     private userToReplySerivce: UserToReplyService,
     private idReferenceService: IdReferenceService,
     private replyFlagService: ReplyFlagService,

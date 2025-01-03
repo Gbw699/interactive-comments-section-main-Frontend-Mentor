@@ -2,7 +2,7 @@ import { Component, computed, input, OnInit, Signal } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
 import { IComment } from '../../../models/IComment';
-import { CommnetsService } from '../../services/commnets.service';
+import { CommentsService } from '../../services/comments.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
 import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
@@ -24,7 +24,7 @@ export class CommentsCardComponent {
 
   constructor(
     private userService: UserService,
-    private commentsService: CommnetsService,
+    private commentsService: CommentsService,
     private userToReplyService: UserToReplyService,
     private idReferenceService: IdReferenceService,
     private replyFlagService: ReplyFlagService,
