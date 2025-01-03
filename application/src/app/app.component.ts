@@ -17,7 +17,15 @@ import { FormCardComponent } from './components/form-card/form-card.component';
 export class AppComponent implements OnInit {
   title = 'application';
   publishedCommnets = computed(() => {
-    return this.comments.publishedComments();
+    return this.comments.publishedComments()?.sort((comment1, comment2) => {
+      if (comment1.score > comment2.score) {
+        return -1;
+      } else if (comment1.score < comment2.score) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   });
 
   constructor(private comments: CommnetsService, private user: UserService) {}
