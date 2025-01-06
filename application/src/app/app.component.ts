@@ -1,7 +1,7 @@
 import { Component, computed, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { CommnetsService } from './services/comments.service';
+import { CommentsService } from './services/comments.service';
 import { UserService } from './services/user.service';
 
 import { CommentsCardComponent } from './components/comments-card/comments-card.component';
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     });
   });
 
-  constructor(private comments: CommnetsService, private user: UserService) {}
+  constructor(private comments: CommentsService, private user: UserService) {}
 
   ngOnInit(): void {
     this.comments.fetchComments();
