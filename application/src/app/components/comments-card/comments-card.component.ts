@@ -1,7 +1,18 @@
-import { Component, computed, input, OnInit, Signal } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
+
 import { ICurrentUser } from '../../../models/ICurrentUser';
 import { IComment } from '../../../models/IComment';
+
+import { UserService } from '../../services/user.service';
 import { CommentsService } from '../../services/comments.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
 import { IdReferenceService } from '../../services/id-reference.service';
@@ -16,11 +27,14 @@ import { EditFlagService } from '../../services/edit-flag.service';
   styleUrl: './comments-card.component.scss',
 })
 export class CommentsCardComponent {
+  comment = input.required<IComment>();
+  parentId = input.required<number>();
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.userService.currentUser();
   });
-  comment = input.required<IComment>();
-  parentId = input.required<number>();
+  lastScoreInstruction: WritableSignal<string | undefined> = signal(undefined);
+  plusBtn = viewChild<ElementRef<HTMLImageElement>>('plusBtn');
+  minusBtn = viewChild<ElementRef<HTMLDivElement>>('minusBtn');
 
   constructor(
     private userService: UserService,
@@ -32,7 +46,7 @@ export class CommentsCardComponent {
   ) {}
 
   setStatesToEdit() {
-    this.idReferenceService.setIdReference(this.comment().id)
+    this.idReferenceService.setIdReference(this.comment().id);
     this.editFlagService.setEditFlag(true);
     this.replyFlagService.setReplyFlag(false);
   }
@@ -46,5 +60,41 @@ export class CommentsCardComponent {
 
   deleteComment(id: number) {
     this.commentsService.deleteComment(id);
+  }
+
+  manageScore(instruction: string) {
+    if (this.lastScoreInstruction() === instruction) {
+      this.commentsService.manageScore(
+        this.comment().id,
+        this.lastScoreInstruction() === 'add' ? 'remove' : 'add'
+      );
+      this.lastScoreInstruction.set(undefined);
+      this.updateButtonState(undefined);
+    } else if (
+      this.lastScoreInstruction() !== instruction &&
+      this.lastScoreInstruction() !== undefined
+    ) {
+      this.commentsService.manageScore(
+        this.comment().id,
+        instruction === 'add' ? 'add' : 'remove'
+      );
+      this.lastScoreInstruction.set(undefined);
+      this.updateButtonState(undefined);
+    } else {
+      this.commentsService.manageScore(this.comment().id, instruction);
+      this.lastScoreInstruction.set(instruction);
+      this.updateButtonState(instruction);
+    }
+  }
+
+  private updateButtonState(instruction: string | undefined) {
+    this.plusBtn()?.nativeElement.classList.toggle(
+      'btn-selected',
+      instruction === 'add'
+    );
+    this.minusBtn()?.nativeElement.classList.toggle(
+      'btn-selected',
+      instruction === 'remove'
+    );
   }
 }

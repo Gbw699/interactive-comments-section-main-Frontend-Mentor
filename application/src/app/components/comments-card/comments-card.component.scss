@@ -41,11 +41,21 @@
     background-color: $Very-light-gray;
     border-radius: 8px;
     .likes-btn {
-      padding: 0.7rem;
+      width: 30px;
+      height: 30px;
+      border: 2px solid $Very-light-gray;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .likes-number {
       color: $Moderate-blue;
       font-weight: 600;
+    }
+    .btn-selected {
+      border: 2px solid $Moderate-blue;
+      border-radius: 8px;
     }
   }
   .delete-icon {
