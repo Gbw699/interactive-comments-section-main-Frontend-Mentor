@@ -128,6 +128,41 @@ export class CommentsService {
     this.publishedComments.set([...newPublishedComments]);
   }
 
+  manageScore(id: number | undefined, instruction: string) {
+    let publishedComments: any = this.publishedComments();
+
+    publishedComments.forEach((element: IComment) => {
+      element.replies?.forEach((childElement) => {
+        if (childElement.id === id) {
+          switch (instruction) {
+            case 'add':
+              childElement.score = childElement.score + 1;
+              break;
+            case 'remove':
+              childElement.score = childElement.score - 1;
+              break;
+            default:
+              break;
+          }
+        }
+      });
+      if (element.id === id) {
+        switch (instruction) {
+          case 'add':
+            element.score = element.score + 1;
+            break;
+          case 'remove':
+            element.score = element.score - 1;
+            break;
+          default:
+            break;
+        }
+      }
+    });
+
+    this.publishedComments.set([...publishedComments]);
+  }
+
   private getLastId(publishedComments: IComment[]) {
     let lastKnownId: number = 0;
 
