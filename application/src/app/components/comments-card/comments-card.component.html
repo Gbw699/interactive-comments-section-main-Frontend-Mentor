@@ -18,7 +18,7 @@
     <div #plusBtn class="plus-btn likes-btn" (click)="manageScore('add')">
       <img src="../assets/images/icon-plus.svg" alt="Button to give a like" />
     </div>
-    <span class="likes-number">{{ comment().score }}</span>
+    <span class="score">{{ comment().score }}</span>
     <div #minusBtn class="minus-btn likes-btn" (click)="manageScore('remove')">
       <img src="../assets/images/icon-minus.svg" alt="Button to take a like" />
     </div>
