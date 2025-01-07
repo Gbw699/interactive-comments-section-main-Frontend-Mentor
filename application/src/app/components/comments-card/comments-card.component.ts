@@ -18,6 +18,7 @@ import { UserToReplyService } from '../../services/user-to-reply.service';
 import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
 import { EditFlagService } from '../../services/edit-flag.service';
+import { DeleteModalService } from '../../services/delete-modal.service';
 
 @Component({
   selector: 'app-comments-card',
@@ -42,7 +43,8 @@ export class CommentsCardComponent {
     private userToReplyService: UserToReplyService,
     private idReferenceService: IdReferenceService,
     private replyFlagService: ReplyFlagService,
-    private editFlagService: EditFlagService
+    private editFlagService: EditFlagService,
+    private deleteModalService: DeleteModalService
   ) {}
 
   setStatesToEdit() {
@@ -59,7 +61,7 @@ export class CommentsCardComponent {
   }
 
   deleteComment(id: number) {
-    this.commentsService.deleteComment(id);
+    this.deleteModalService.setCommentIdToDelete(id)
   }
 
   manageScore(instruction: string) {
