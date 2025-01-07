@@ -113,7 +113,7 @@ export class CommentsService {
     this.publishedComments.set([...newPublishedComments]);
   }
 
-  deleteComment(id: number) {
+  deleteComment(id: number | undefined) {
     let publishedComments: any = this.publishedComments();
 
     let newPublishedComments: IComment[] = publishedComments.filter(
