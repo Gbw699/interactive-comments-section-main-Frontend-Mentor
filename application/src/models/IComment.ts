@@ -1,7 +1,7 @@
 export interface IComment {
   id: number;
   content: string;
-  createdAt: string;
+  createdAt: Date;
   score: number;
   replyingTo?: string;
   user: User;

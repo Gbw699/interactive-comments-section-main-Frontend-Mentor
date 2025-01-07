@@ -16,16 +16,21 @@ export class CommentsService {
   fetchComments() {
     let publishedCommentsInStorageJson: any =
       localStorage.getItem('publishedComments');
-    let publishedCommentsInStorageObject: any = JSON.parse(
+    let publishedCommentsInStorageObject: IComment[] = JSON.parse(
       publishedCommentsInStorageJson
     );
 
     if (publishedCommentsInStorageObject !== null) {
+      publishedCommentsInStorageObject = this.adjustCreatedAtProperty(
+        publishedCommentsInStorageObject
+      );
       this.publishedComments.set([...publishedCommentsInStorageObject]);
     } else {
       this.http
         .get('http://localhost:4200/assets/data.json')
         .subscribe((value: any) => {
+          value.comments = this.adjustCreatedAtProperty(value.comments);
+
           this.publishedComments.set([...value.comments]);
           localStorage.setItem(
             'publishedComments',
@@ -44,12 +49,7 @@ export class CommentsService {
     let newComment: IComment = {
       id: lastId + 1,
       content: comment,
-      createdAt: new Date().toLocaleDateString('en-US', {
-        day: '2-digit',
-        weekday: 'short',
-        month: 'short',
-        year: 'numeric',
-      }),
+      createdAt: new Date(),
       score: 0,
       user: {
         image: {
@@ -105,12 +105,7 @@ export class CommentsService {
     let newReplyComment: IComment = {
       id: lastId + 1,
       content: comment,
-      createdAt: new Date().toLocaleDateString('en-US', {
-        day: '2-digit',
-        weekday: 'short',
-        month: 'short',
-        year: 'numeric',
-      }),
+      createdAt: new Date(),
       score: 0,
       replyingTo: userToReply,
       user: {
@@ -213,5 +208,16 @@ export class CommentsService {
     });
 
     return lastKnownId;
+  }
+
+  private adjustCreatedAtProperty(publishedComments: IComment[]) {
+    publishedComments.forEach((element) => {
+      element.replies?.forEach((chieldElement) => {
+        chieldElement.createdAt = new Date(chieldElement.createdAt);
+      });
+      element.createdAt = new Date(element.createdAt);
+    });
+
+    return publishedComments;
   }
 }
