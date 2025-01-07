@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 
 import { IComment } from '../../models/IComment';
+
 import { UserService } from './user.service';
 
 @Injectable({
@@ -13,12 +14,26 @@ export class CommentsService {
   constructor(private http: HttpClient, private user: UserService) {}
 
   fetchComments() {
-    this.http
-      .get('http://localhost:4200/assets/data.json')
-      .subscribe((value: any) => {
-        this.publishedComments.set([...value.comments]);
-        console.log(this.publishedComments());
-      });
+    let publishedCommentsInStorageJson: any =
+      localStorage.getItem('publishedComments');
+    let publishedCommentsInStorageObject: any = JSON.parse(
+      publishedCommentsInStorageJson
+    );
+
+    if (publishedCommentsInStorageObject !== null) {
+      this.publishedComments.set([...publishedCommentsInStorageObject]);
+    } else {
+      this.http
+        .get('http://localhost:4200/assets/data.json')
+        .subscribe((value: any) => {
+          this.publishedComments.set([...value.comments]);
+          localStorage.setItem(
+            'publishedComments',
+            JSON.stringify([...value.comments])
+          );
+          console.log(this.publishedComments());
+        });
+    }
   }
 
   addComment(comment: string) {
@@ -49,6 +64,10 @@ export class CommentsService {
     let newPublishedComments: IComment[] = [...publishedComments, newComment];
 
     this.publishedComments.set([...newPublishedComments]);
+    localStorage.setItem(
+      'publishedComments',
+      JSON.stringify([...newPublishedComments])
+    );
   }
 
   editComment(id: number | undefined, comment: string) {
@@ -68,6 +87,10 @@ export class CommentsService {
     });
 
     this.publishedComments.set([...newPublishedComments]);
+    localStorage.setItem(
+      'publishedComments',
+      JSON.stringify([...newPublishedComments])
+    );
   }
 
   replyComment(
@@ -111,6 +134,10 @@ export class CommentsService {
     });
 
     this.publishedComments.set([...newPublishedComments]);
+    localStorage.setItem(
+      'publishedComments',
+      JSON.stringify([...newPublishedComments])
+    );
   }
 
   deleteComment(id: number | undefined) {
@@ -126,6 +153,10 @@ export class CommentsService {
     );
 
     this.publishedComments.set([...newPublishedComments]);
+    localStorage.setItem(
+      'publishedComments',
+      JSON.stringify([...newPublishedComments])
+    );
   }
 
   manageScore(id: number | undefined, instruction: string) {
@@ -161,6 +192,10 @@ export class CommentsService {
     });
 
     this.publishedComments.set([...publishedComments]);
+    localStorage.setItem(
+      'publishedComments',
+      JSON.stringify([...publishedComments])
+    );
   }
 
   private getLastId(publishedComments: IComment[]) {
