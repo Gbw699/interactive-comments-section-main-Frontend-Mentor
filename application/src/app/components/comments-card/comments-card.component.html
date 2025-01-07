@@ -5,9 +5,8 @@
   <strong class="user-name">{{ comment().user.username }}</strong>
   @if (currentUser()?.currentUser?.username === comment().user.username) {
   <p class="label">you</p>
-  } @if(comment().createdAt !== ""){
-  <p class="publication-time">{{ comment().createdAt }}</p>
   }
+  <p class="publication-time">{{ comment().createdAt | customDate }}</p>
   <p class="publication-text">
     <span class="reply-user-name">
       {{ comment().replyingTo }}

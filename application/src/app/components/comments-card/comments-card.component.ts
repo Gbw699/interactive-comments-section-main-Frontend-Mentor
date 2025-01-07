@@ -19,11 +19,12 @@ import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
 import { EditFlagService } from '../../services/edit-flag.service';
 import { DeleteModalService } from '../../services/delete-modal.service';
+import { CustomDatePipe } from '../../pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-comments-card',
   standalone: true,
-  imports: [],
+  imports: [CustomDatePipe],
   templateUrl: './comments-card.component.html',
   styleUrl: './comments-card.component.scss',
 })
