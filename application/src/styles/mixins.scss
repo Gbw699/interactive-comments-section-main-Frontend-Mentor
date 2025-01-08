@@ -11,9 +11,20 @@
 
 @mixin user-img() {
   display: flex;
+  max-width: 30px;
   img {
     width: 100%;
     min-width: 30px;
     height: auto;
+  }
+}
+
+@mixin img() {
+  display: flex;
+  max-height: 15px;
+  align-items: center;
+  img {
+    width: auto;
+    height: 100%;
   }
 }

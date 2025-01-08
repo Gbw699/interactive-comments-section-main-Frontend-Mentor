@@ -1,12 +1,15 @@
 <div class="card-container">
-  <div class="user-img">
-    <img src="{{ comment().user.image.webp }}" alt="User image" />
+  <div class="header-container">
+    <div class="user-img">
+      <img src="{{ comment().user.image.webp }}" alt="User image" />
+    </div>
+    <strong class="user-name">{{ comment().user.username }}</strong>
+    @if (currentUser()?.currentUser?.username === comment().user.username) {
+    <p class="label">you</p>
+    }
+    <p class="publication-time">{{ comment().createdAt | customDate }}</p>
   </div>
-  <strong class="user-name">{{ comment().user.username }}</strong>
-  @if (currentUser()?.currentUser?.username === comment().user.username) {
-  <p class="label">you</p>
-  }
-  <p class="publication-time">{{ comment().createdAt | customDate }}</p>
+
   <p class="publication-text">
     <span class="reply-user-name">
       {{ comment().replyingTo }}
@@ -23,29 +26,41 @@
     </div>
   </div>
   @if (currentUser()?.currentUser?.username === comment().user.username) {
-  <img
-    class="delete-icon"
-    src="../assets/images/icon-delete.svg"
-    alt="delete button"
-    (click)="deleteComment(comment().id)"
-  />
-  <span class="delete-btn" (click)="deleteComment(comment().id)">Delete</span>
-  <img
-    class="edit-icon"
-    src="../assets/images/icon-edit.svg"
-    alt="edit button"
-    (click)="setStatesToEdit()"
-  />
-  <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
+  <div class="delete-btn-container crud-btn">
+    <div class="img">
+      <img
+        class="delete-icon"
+        src="../assets/images/icon-delete.svg"
+        alt="delete button"
+        (click)="deleteComment(comment().id)"
+      />
+    </div>
+    <span class="delete-btn" (click)="deleteComment(comment().id)">Delete</span>
+  </div>
+  <div class="edit-btn-container crud-btn">
+    <div class="img">
+      <img
+        class="edit-icon"
+        src="../assets/images/icon-edit.svg"
+        alt="edit button"
+        (click)="setStatesToEdit()"
+      />
+    </div>
+    <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
+  </div>
   } @else {
-  <img
-    class="reply-icon"
-    src="../assets/images/icon-reply.svg"
-    alt="reply button"
-    (click)="setStatesToReply(comment().user.username)"
-  />
-  <span class="reply-btn" (click)="setStatesToReply(comment().user.username)"
-    >Reply</span
-  >
+  <div class="reply-btn-container crud-btn">
+    <div class="img">
+      <img
+        class="reply-icon"
+        src="../assets/images/icon-reply.svg"
+        alt="reply button"
+        (click)="setStatesToReply(comment().user.username)"
+      />
+    </div>
+    <span class="reply-btn" (click)="setStatesToReply(comment().user.username)"
+      >Reply</span
+    >
+  </div>
   }
 </div>

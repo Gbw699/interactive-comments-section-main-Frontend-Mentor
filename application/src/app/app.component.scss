@@ -15,6 +15,9 @@
     align-items: center;
     padding: 2rem 0;
 
+    @media (max-width: $Mobile) {
+      
+    }
     .replys-container {
       display: grid;
       grid-template-columns: 0.5fr repeat(11, 1fr);
