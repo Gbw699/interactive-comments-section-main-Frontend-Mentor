@@ -33,15 +33,39 @@
     }
   }
   .modal-container {
+    padding: 0;
+    margin: 0;
+    border: none;
     width: 100%;
     height: 100%;
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.5);
     display: grid;
     grid-template-columns: 0.5fr repeat(10, 1fr) 0.5fr;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
     .modal-frame {
       grid-column: 2/12;
       align-self: center;
+      border-radius: 8px;
+      animation: zoomIn;
+      animation-duration: 0.5s;
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
     }
   }
 }

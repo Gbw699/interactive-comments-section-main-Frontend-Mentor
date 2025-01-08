@@ -21,10 +21,10 @@
     <app-form-card></app-form-card>
   </div>
   @if (commentIdToDelete()) {
-  <div class="modal-container" (click)="closeModal($event)">
+  <dialog  class="modal-container" (click)="closeModal($event)">
     <div class="modal-frame" #modal>
       <app-modal-card class="modal-component"></app-modal-card>
     </div>
-  </div>
+  </dialog>
   }
 </div>

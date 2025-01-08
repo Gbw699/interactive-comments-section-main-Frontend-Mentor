@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
   commentIdToDelete: Signal<number | undefined> = computed(() => {
     return this.deleteModalService.commentIdToDelete();
   });
+  isOpen = computed(() => !!this.commentIdToDelete());
   modalRef = viewChild<ElementRef<HTMLDivElement>>('modal');
 
   constructor(
