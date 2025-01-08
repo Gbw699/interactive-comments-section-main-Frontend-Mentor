@@ -18,7 +18,7 @@
   .btn {
     color: $White;
     background-color: transparent;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 8px;
     padding: 1rem 1.5rem;
     font-weight: 600;
@@ -26,9 +26,23 @@
   .cancel-btn {
     grid-column: 2 / span 5;
     background-color: $Grayish-Blue;
+    transition: all 0.5s;
+    &:hover {
+      color: $Grayish-Blue;
+      background-color: $White;
+      border: 1px solid $Grayish-Blue;
+      cursor: pointer;
+    }
   }
   .delete-btn {
     grid-column: 7 / span 5;
     background-color: $Soft-Red;
+    transition: all 0.5s;
+    &:hover {
+      color: $Soft-Red;
+      background-color: $White;
+      border: 1px solid $Soft-Red;
+      cursor: pointer;
+    }
   }
 }
