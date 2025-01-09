@@ -118,9 +118,21 @@ export class CommentsService {
     };
 
     let newPublishedComments: IComment[] = [...publishedComments];
+    let parentId: number;
 
     newPublishedComments.forEach((element) => {
+      element.replies?.forEach((chieldElement) => {
+        if (chieldElement.id === id) {
+          parentId = element.id;
+        }
+      });
       if (element.id === id) {
+        parentId = element.id;
+      }
+    });
+
+    newPublishedComments.forEach((element) => {
+      if (element.id === parentId) {
         element.replies = [
           ...(element.replies ? element.replies : []),
           newReplyComment,

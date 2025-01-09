@@ -7,7 +7,11 @@
       [parentId]="item.id"
       [lastScoreInstruction]="item.lastScoreInstruction"
     ></app-comments-card>
-    @if (item.replies? item.replies.length : 0 > 0) {
+    @if(replyFlag() && idReference() === item.id){
+    <app-form-card class="form-card" [replyFlag]="replyFlag()"></app-form-card>
+    } @else if(editFlag() && idReference() === item.id){
+    <app-form-card class="form-card" [editFlag]="editFlag()"></app-form-card>
+    } @if (item.replies? item.replies.length : 0 > 0) {
     <div class="replys-container">
       <div class="line-container">
         <div class="line"></div>
@@ -19,7 +23,17 @@
           [parentId]="item.id"
           [lastScoreInstruction]="replyItem.lastScoreInstruction"
         ></app-comments-card>
-        }
+        @if(replyFlag() && idReference() === replyItem.id){
+        <app-form-card
+          class="form-card"
+          [replyFlag]="replyFlag()"
+        ></app-form-card>
+        } @else if(editFlag() && idReference() === replyItem.id){
+        <app-form-card
+          class="form-card"
+          [editFlag]="editFlag()"
+        ></app-form-card>
+        } }
       </div>
     </div>
     } }

@@ -17,6 +17,9 @@ import { DeleteModalService } from './services/delete-modal.service';
 import { CommentsCardComponent } from './components/comments-card/comments-card.component';
 import { FormCardComponent } from './components/form-card/form-card.component';
 import { ModalCardComponent } from './components/modal-card/modal-card.component';
+import { ReplyFlagService } from './services/reply-flag.service';
+import { EditFlagService } from './services/edit-flag.service';
+import { IdReferenceService } from './services/id-reference.service';
 
 @Component({
   selector: 'app-root',
@@ -48,13 +51,25 @@ export class AppComponent implements OnInit {
   commentIdToDelete: Signal<number | undefined> = computed(() => {
     return this.deleteModalService.commentIdToDelete();
   });
+  replyFlag: Signal<boolean> = computed(() => {
+    return this.replyFlagService.replyFlag();
+  });
+  editFlag: Signal<boolean> = computed(() => {
+    return this.editFlagService.editFlag();
+  });
+  idReference = computed(() => {
+    return this.idReferenceService.idReference();
+  });
   isOpen = computed(() => !!this.commentIdToDelete());
   modalRef = viewChild<ElementRef<HTMLDivElement>>('modal');
 
   constructor(
     private commentsService: CommentsService,
     private userService: UserService,
-    private deleteModalService: DeleteModalService
+    private deleteModalService: DeleteModalService,
+    private replyFlagService: ReplyFlagService,
+    private editFlagService: EditFlagService,
+    private idReferenceService: IdReferenceService
   ) {}
 
   ngOnInit(): void {

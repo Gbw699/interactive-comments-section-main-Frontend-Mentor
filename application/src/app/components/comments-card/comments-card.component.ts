@@ -65,7 +65,7 @@ export class CommentsCardComponent implements OnInit {
   }
 
   setStatesToReply(userToReply: string) {
-    this.idReferenceService.setIdReference(this.parentId());
+    this.idReferenceService.setIdReference(this.comment().id);
     this.userToReplyService.setUserToReply(userToReply);
     this.replyFlagService.setReplyFlag(true);
     this.editFlagService.setEditFlag(false);

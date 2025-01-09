@@ -1,4 +1,4 @@
-import { Component, computed, Signal } from '@angular/core';
+import { Component, computed, input, Signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,8 +7,9 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../../models/ICurrentUser';
+
+import { UserService } from '../../services/user.service';
 import { CommentsService } from '../../services/comments.service';
 import { UserToReplyService } from '../../services/user-to-reply.service';
 import { IdReferenceService } from '../../services/id-reference.service';
@@ -23,14 +24,10 @@ import { EditFlagService } from '../../services/edit-flag.service';
   styleUrl: './form-card.component.scss',
 })
 export class FormCardComponent {
+  replyFlag = input<boolean>();
+  editFlag = input<boolean>();
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.userSerivce.currentUser();
-  });
-  private replyFlag: Signal<boolean> = computed(() => {
-    return this.replyFlagService.replyFlag();
-  });
-  private editFlag: Signal<boolean> = computed(() => {
-    return this.editFlagService.editFlag();
   });
   private userToReply: Signal<string | undefined> = computed(() => {
     return this.userToReplySerivce.userToReply();
