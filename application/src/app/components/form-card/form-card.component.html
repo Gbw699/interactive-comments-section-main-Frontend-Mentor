@@ -21,6 +21,10 @@
   <div class="error-text">
     <span>It must have less than 300 characters</span>
   </div>
+  }@if (formGroup.controls["inputValue"].hasError("pattern")) {
+  <div class="error-text">
+    <span>It must contain at least one character that is not a whitespace</span>
+  </div>
   }
   <div class="user-img">
     <img
@@ -29,7 +33,8 @@
     />
   </div>
   @if (!formGroup.controls["inputValue"].hasError("required") &&
-  !formGroup.controls["inputValue"].hasError("maxlength")) {
+  !formGroup.controls["inputValue"].hasError("maxlength") &&
+  !formGroup.controls["inputValue"].hasError("pattern")) {
   <button class="btn" type="submit">SEND</button>
   } @else {
   <button class="btn" type="submit" disabled="true">SEND</button>

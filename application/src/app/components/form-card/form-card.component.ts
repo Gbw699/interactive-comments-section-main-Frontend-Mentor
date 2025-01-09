@@ -43,6 +43,7 @@ export class FormCardComponent {
     inputValue: new FormControl('', [
       Validators.required,
       Validators.maxLength(300),
+      Validators.pattern(/\S/),
     ]),
   });
 
@@ -78,7 +79,7 @@ export class FormCardComponent {
 
     this.commentsService.editComment(this.commentIdToReply(), inputComment);
 
-    this.editFlagService.setEditFlag(false)
+    this.editFlagService.setEditFlag(false);
   }
 
   private replyComment() {
