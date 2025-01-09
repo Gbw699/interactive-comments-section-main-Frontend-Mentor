@@ -67,6 +67,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      &:hover {
+        cursor: pointer;
+      }
     }
     .score {
       color: $Moderate-blue;
@@ -90,6 +93,9 @@
       align-items: center;
       .img {
         @include img;
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
     .delete-btn {
