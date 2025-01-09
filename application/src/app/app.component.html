@@ -2,12 +2,16 @@
   <div class="flex-container">
     @for (item of publishedCommnets(); track $index) {
     <app-comments-card
+      class="comments-card"
       [comment]="item"
       [parentId]="item.id"
     ></app-comments-card>
     @if (item.replies? item.replies.length : 0 > 0) {
     <div class="replys-container">
-      <div class="line"></div>
+      <div class="line-container">
+
+        <div class="line"></div>
+      </div>
       <div class="replies-cards">
         @for (replyItem of item.replies; track $index) {
         <app-comments-card
@@ -18,10 +22,10 @@
       </div>
     </div>
     } }
-    <app-form-card></app-form-card>
+    <app-form-card class="form-card"></app-form-card>
   </div>
   @if (commentIdToDelete()) {
-  <dialog  class="modal-container" (click)="closeModal($event)">
+  <dialog class="modal-container" (click)="closeModal($event)">
     <div class="modal-frame" #modal>
       <app-modal-card class="modal-component"></app-modal-card>
     </div>

@@ -3,8 +3,19 @@
 
 .card-container {
   @include card-container;
+  grid-template-columns: auto;
+  grid-template-areas:
+    "headerArea headerArea headerArea"
+    "textArea textArea textArea"
+    "scoreArea ... crudBtnArea";
+  @media (min-width: $Tablet) {
+    grid-template-areas:
+      "scoreArea headerArea crudBtnArea"
+      "scoreArea textArea textArea";
+    grid-template-columns: fit-content(100%);
+  }
   .header-container {
-    grid-column: 1 / 13;
+    grid-area: headerArea;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -27,7 +38,7 @@
     }
   }
   .publication-text {
-    grid-column: 1 / 13;
+    grid-area: textArea;
     color: $Grayish-Blue;
     line-height: 20px;
     .reply-user-name {
@@ -35,13 +46,20 @@
       font-weight: 600;
     }
   }
-  .likes-container {
+  .score-container {
+    grid-area: scoreArea;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: $Very-light-gray;
     border-radius: 8px;
-    .likes-btn {
+    max-width: 90px;
+    @media (min-width: $Tablet) {
+      flex-direction: column;
+      max-width: 34px;
+      margin-right: 1rem;
+    }
+    .score-btn {
       width: 30px;
       height: 30px;
       border: 2px solid $Very-light-gray;
@@ -61,39 +79,30 @@
     }
   }
 
-  .crud-btn {
+  .crud-btn-container {
+    grid-area: crudBtnArea;
+    justify-self: end;
     display: flex;
     gap: 0.5rem;
-    align-items: center;
-  }
-  .delete-btn-container {
-    grid-column: 10 / 11;
-    .img {
-      @include img;
+    .crud-btn {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      .img {
+        @include img;
+      }
     }
-  }
-  .delete-btn {
-    color: $Soft-Red;
-    font-weight: 600;
-  }
-  .edit-btn-container {
-    grid-column: 12 / 13;
-    .img {
-      @include img;
+    .delete-btn {
+      color: $Soft-Red;
+      font-weight: 600;
     }
-  }
-  .edit-btn {
-    color: $Moderate-blue;
-    font-weight: 600;
-  }
-  .reply-btn-container {
-    grid-column: 12 / 13;
-    .img {
-      @include img;
+    .edit-btn {
+      color: $Moderate-blue;
+      font-weight: 600;
     }
-  }
-  .reply-btn {
-    color: $Moderate-blue;
-    font-weight: 600;
+    .reply-btn {
+      color: $Moderate-blue;
+      font-weight: 600;
+    }
   }
 }

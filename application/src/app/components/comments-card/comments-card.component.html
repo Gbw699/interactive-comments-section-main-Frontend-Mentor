@@ -16,51 +16,59 @@
     </span>
     {{ comment().content }}
   </p>
-  <div class="likes-container">
-    <div #plusBtn class="plus-btn likes-btn" (click)="manageScore('add')">
+  <div class="score-container">
+    <div #plusBtn class="plus-btn score-btn" (click)="manageScore('add')">
       <img src="../assets/images/icon-plus.svg" alt="Button to give a like" />
     </div>
     <span class="score">{{ comment().score }}</span>
-    <div #minusBtn class="minus-btn likes-btn" (click)="manageScore('remove')">
+    <div #minusBtn class="minus-btn score-btn" (click)="manageScore('remove')">
       <img src="../assets/images/icon-minus.svg" alt="Button to take a like" />
     </div>
   </div>
   @if (currentUser()?.currentUser?.username === comment().user.username) {
-  <div class="delete-btn-container crud-btn">
-    <div class="img">
-      <img
-        class="delete-icon"
-        src="../assets/images/icon-delete.svg"
-        alt="delete button"
-        (click)="deleteComment(comment().id)"
-      />
+  <div class="crud-btn-container">
+    <div class="crud-btn">
+      <div class="img">
+        <img
+          class="delete-icon"
+          src="../assets/images/icon-delete.svg"
+          alt="delete button"
+          (click)="deleteComment(comment().id)"
+        />
+      </div>
+      <span class="delete-btn" (click)="deleteComment(comment().id)"
+        >Delete</span
+      >
     </div>
-    <span class="delete-btn" (click)="deleteComment(comment().id)">Delete</span>
-  </div>
-  <div class="edit-btn-container crud-btn">
-    <div class="img">
-      <img
-        class="edit-icon"
-        src="../assets/images/icon-edit.svg"
-        alt="edit button"
-        (click)="setStatesToEdit()"
-      />
+    <div class="crud-btn">
+      <div class="img">
+        <img
+          class="edit-icon"
+          src="../assets/images/icon-edit.svg"
+          alt="edit button"
+          (click)="setStatesToEdit()"
+        />
+      </div>
+      <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
     </div>
-    <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
   </div>
   } @else {
-  <div class="reply-btn-container crud-btn">
-    <div class="img">
-      <img
-        class="reply-icon"
-        src="../assets/images/icon-reply.svg"
-        alt="reply button"
+  <div class="crud-btn-container">
+    <div class="crud-btn">
+      <div class="img">
+        <img
+          class="reply-icon"
+          src="../assets/images/icon-reply.svg"
+          alt="reply button"
+          (click)="setStatesToReply(comment().user.username)"
+        />
+      </div>
+      <span
+        class="reply-btn"
         (click)="setStatesToReply(comment().user.username)"
-      />
+        >Reply</span
+      >
     </div>
-    <span class="reply-btn" (click)="setStatesToReply(comment().user.username)"
-      >Reply</span
-    >
   </div>
   }
 </div>

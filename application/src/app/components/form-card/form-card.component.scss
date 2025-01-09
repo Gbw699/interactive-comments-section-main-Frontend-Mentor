@@ -3,17 +3,30 @@
 
 .card-container {
   @include card-container;
+  grid-template-columns: auto;
+  grid-template-areas:
+    "textArea textArea textArea"
+    "errorTextArea errorTextArea errorTextArea"
+    "userImgArea ... btnArea";
+  @media (min-width: $Computers) {
+    grid-template-columns: fit-content(100%) auto fit-content(100%);
+    grid-template-areas:
+      "userImgArea textArea btnArea"
+      "userImgArea errorTextArea errorTextArea";
+    column-gap: 1rem;
+    align-items: start;
+  }
   .user-img {
     @include user-img;
+    grid-area: userImgArea;
   }
   #text-area {
-    grid-column: 1 / 13;
+    grid-area: textArea;
     padding: 0.5rem 1rem;
     border: 2px solid;
     border-radius: 5px;
     border-color: $Very-light-gray;
     min-height: 4rem;
-    height: min-content;
     font-weight: 400;
     resize: none;
     &:focus-visible {
@@ -22,19 +35,23 @@
     }
   }
   .error-text {
-    grid-column: 1 / 13;
+    grid-area: errorTextArea;
     color: $Soft-Red;
     font-weight: 600;
   }
   .btn {
-    grid-column: 12 / 13;
-    padding: 1rem 2rem;
+    grid-area: btnArea;
+    padding: 0.5rem 1rem;
     font-weight: 600;
     letter-spacing: 1px;
     border: none;
     color: $White;
     background-color: $Moderate-blue;
     border-radius: 10px;
+    max-width: 90px;
+    justify-self: end;
+    display: flex;
+    justify-content: center;
     &:disabled {
       border: 2px solid;
       border-color: $Moderate-blue;
