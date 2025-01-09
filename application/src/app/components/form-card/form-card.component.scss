@@ -46,7 +46,7 @@
     padding: 0.5rem 1rem;
     font-weight: 600;
     letter-spacing: 1px;
-    border: none;
+    border: 2px solid transparent;
     color: $White;
     background-color: $Moderate-blue;
     border-radius: 10px;
@@ -54,9 +54,16 @@
     justify-self: end;
     display: flex;
     justify-content: center;
+    transition: all 0.5s;
     &:disabled {
-      border: 2px solid;
-      border-color: $Moderate-blue;
+      border: 2px solid $Moderate-blue;
+      background-color: $White;
+      color: $Moderate-blue;
+      cursor: default;
+    }
+    &:hover:enabled {
+      cursor: pointer;
+      border: 2px solid $Moderate-blue;
       background-color: $White;
       color: $Moderate-blue;
     }
