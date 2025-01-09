@@ -5,11 +5,11 @@
       class="comments-card"
       [comment]="item"
       [parentId]="item.id"
+      [lastScoreInstruction]="item.lastScoreInstruction"
     ></app-comments-card>
     @if (item.replies? item.replies.length : 0 > 0) {
     <div class="replys-container">
       <div class="line-container">
-
         <div class="line"></div>
       </div>
       <div class="replies-cards">
@@ -17,6 +17,7 @@
         <app-comments-card
           [comment]="replyItem"
           [parentId]="item.id"
+          [lastScoreInstruction]="replyItem.lastScoreInstruction"
         ></app-comments-card>
         }
       </div>

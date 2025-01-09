@@ -170,6 +170,7 @@ export class CommentsService {
             default:
               break;
           }
+          childElement.lastScoreInstruction = instruction;
         }
       });
       if (element.id === id) {
@@ -183,6 +184,7 @@ export class CommentsService {
           default:
             break;
         }
+        element.lastScoreInstruction = instruction;
       }
     });
 

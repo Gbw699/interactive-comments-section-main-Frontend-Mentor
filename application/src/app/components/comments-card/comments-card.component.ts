@@ -3,6 +3,7 @@ import {
   computed,
   ElementRef,
   input,
+  OnInit,
   signal,
   Signal,
   viewChild,
@@ -19,6 +20,7 @@ import { IdReferenceService } from '../../services/id-reference.service';
 import { ReplyFlagService } from '../../services/reply-flag.service';
 import { EditFlagService } from '../../services/edit-flag.service';
 import { DeleteModalService } from '../../services/delete-modal.service';
+
 import { CustomDatePipe } from '../../pipes/custom-date.pipe';
 
 @Component({
@@ -28,13 +30,15 @@ import { CustomDatePipe } from '../../pipes/custom-date.pipe';
   templateUrl: './comments-card.component.html',
   styleUrl: './comments-card.component.scss',
 })
-export class CommentsCardComponent {
+export class CommentsCardComponent implements OnInit {
   comment = input.required<IComment>();
   parentId = input.required<number>();
+  lastScoreInstruction = input<string | undefined>();
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.userService.currentUser();
   });
-  lastScoreInstruction: WritableSignal<string | undefined> = signal(undefined);
+  lastScoreInstructionSignal: WritableSignal<string | undefined> =
+    signal(undefined);
   plusBtn = viewChild<ElementRef<HTMLImageElement>>('plusBtn');
   minusBtn = viewChild<ElementRef<HTMLDivElement>>('minusBtn');
 
@@ -47,6 +51,12 @@ export class CommentsCardComponent {
     private editFlagService: EditFlagService,
     private deleteModalService: DeleteModalService
   ) {}
+
+  ngOnInit(): void {
+    let instruction = this.lastScoreInstruction();
+    this.updateButtonState(instruction);
+    this.lastScoreInstructionSignal.set(instruction);
+  }
 
   setStatesToEdit() {
     this.idReferenceService.setIdReference(this.comment().id);
@@ -62,32 +72,34 @@ export class CommentsCardComponent {
   }
 
   deleteComment(id: number) {
-    this.deleteModalService.setCommentIdToDelete(id)
+    this.deleteModalService.setCommentIdToDelete(id);
   }
 
   manageScore(instruction: string) {
-    if (this.lastScoreInstruction() === instruction) {
-      this.commentsService.manageScore(
-        this.comment().id,
-        this.lastScoreInstruction() === 'add' ? 'remove' : 'add'
-      );
-      this.lastScoreInstruction.set(undefined);
-      this.updateButtonState(undefined);
-    } else if (
-      this.lastScoreInstruction() !== instruction &&
-      this.lastScoreInstruction() !== undefined
-    ) {
-      this.commentsService.manageScore(
-        this.comment().id,
-        instruction === 'add' ? 'add' : 'remove'
-      );
-      this.lastScoreInstruction.set(undefined);
-      this.updateButtonState(undefined);
-    } else {
-      this.commentsService.manageScore(this.comment().id, instruction);
-      this.lastScoreInstruction.set(instruction);
-      this.updateButtonState(instruction);
-    }
+    const lastInstruction = this.lastScoreInstructionSignal();
+    const isSameInstruction = lastInstruction === instruction;
+
+    // Determine the action to perform
+    const action =
+      lastInstruction === undefined
+        ? instruction
+        : isSameInstruction
+        ? instruction === 'add'
+          ? 'remove'
+          : 'add'
+        : instruction;
+
+    this.commentsService.manageScore(this.comment().id, action);
+
+    // Update the signals and button state
+    const newState =
+      action === instruction
+        ? lastInstruction === undefined
+          ? instruction
+          : undefined
+        : undefined;
+    this.lastScoreInstructionSignal.set(newState);
+    this.updateButtonState(newState);
   }
 
   private updateButtonState(instruction: string | undefined) {

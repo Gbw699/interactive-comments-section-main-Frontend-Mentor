@@ -6,6 +6,7 @@ export interface IComment {
   replyingTo?: string;
   user: User;
   replies?: IComment[];
+  lastScoreInstruction?: string;
 }
 
 interface User {
