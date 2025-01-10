@@ -8,6 +8,8 @@
     "headerArea headerArea headerArea"
     "textArea textArea textArea"
     "scoreArea ... crudBtnArea";
+  position: relative;
+  z-index: 1;
   @media (min-width: $Tablet) {
     grid-template-areas:
       "scoreArea headerArea crudBtnArea"

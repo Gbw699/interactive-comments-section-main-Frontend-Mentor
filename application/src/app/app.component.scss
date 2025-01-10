@@ -47,6 +47,17 @@
     .form-card {
       width: 100%;
     }
+    .animation {
+      animation: slideDown 0.5s ease-in-out;
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+        }
+        to {
+          transform: translateY(0px);
+        }
+      }
+    }
   }
   .modal-container {
     padding: 0;
@@ -60,6 +71,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     animation-name: fadeIn;
     animation-duration: 0.5s;
+    z-index: 1000;
     @keyframes fadeIn {
       from {
         opacity: 0;
