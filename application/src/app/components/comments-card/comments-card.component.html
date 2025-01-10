@@ -27,47 +27,38 @@
   </div>
   @if (currentUser()?.currentUser?.username === comment().user.username) {
   <div class="crud-btn-container">
-    <div class="crud-btn">
+    <div class="crud-btn" (click)="deleteComment(comment().id)">
       <div class="img">
         <img
           class="delete-icon"
           src="../assets/images/icon-delete.svg"
           alt="delete button"
-          (click)="deleteComment(comment().id)"
         />
       </div>
-      <span class="delete-btn" (click)="deleteComment(comment().id)"
-        >Delete</span
-      >
+      <span class="delete-btn">Delete</span>
     </div>
-    <div class="crud-btn">
+    <div class="crud-btn" (click)="setStatesToEdit()">
       <div class="img">
         <img
           class="edit-icon"
           src="../assets/images/icon-edit.svg"
           alt="edit button"
-          (click)="setStatesToEdit()"
         />
       </div>
-      <span class="edit-btn" (click)="setStatesToEdit()">Edit</span>
+      <span class="edit-btn">Edit</span>
     </div>
   </div>
   } @else {
   <div class="crud-btn-container">
-    <div class="crud-btn">
+    <div class="crud-btn" (click)="setStatesToReply(comment().user.username)">
       <div class="img">
         <img
           class="reply-icon"
           src="../assets/images/icon-reply.svg"
           alt="reply button"
-          (click)="setStatesToReply(comment().user.username)"
         />
       </div>
-      <span
-        class="reply-btn"
-        (click)="setStatesToReply(comment().user.username)"
-        >Reply</span
-      >
+      <span class="reply-btn">Reply</span>
     </div>
   </div>
   }
