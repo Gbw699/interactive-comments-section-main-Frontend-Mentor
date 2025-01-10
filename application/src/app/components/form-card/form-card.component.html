@@ -34,9 +34,17 @@
   </div>
   @if (!formGroup.controls["inputValue"].hasError("required") &&
   !formGroup.controls["inputValue"].hasError("maxlength") &&
-  !formGroup.controls["inputValue"].hasError("pattern")) {
+  !formGroup.controls["inputValue"].hasError("pattern")) { @if (editFlag()) {
+  <button class="btn" type="submit">UPDATE</button>
+  } @else if (replyFlag()) {
+  <button class="btn" type="submit">REPLY</button>
+  } @else {
   <button class="btn" type="submit">SEND</button>
+  } } @else { @if (editFlag()) {
+  <button class="btn" type="submit" disabled="true">UPDATE</button>
+  } @else if (replyFlag()) {
+  <button class="btn" type="submit" disabled="true">REPLY</button>
   } @else {
   <button class="btn" type="submit" disabled="true">SEND</button>
-  }
+  } }
 </form>
