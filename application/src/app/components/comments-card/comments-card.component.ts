@@ -75,31 +75,33 @@ export class CommentsCardComponent implements OnInit {
     this.deleteModalService.setCommentIdToDelete(id);
   }
 
-  manageScore(instruction: string) {
-    const lastInstruction = this.lastScoreInstructionSignal();
-    const isSameInstruction = lastInstruction === instruction;
+  manageScore(newInstruction: string) {
+    const lastScoreInstruction = this.lastScoreInstructionSignal();
+    const isSameInstruction = lastScoreInstruction === newInstruction;
 
-    // Determine the action to perform
     const action =
-      lastInstruction === undefined
-        ? instruction
+      lastScoreInstruction === undefined
+        ? newInstruction
         : isSameInstruction
-        ? instruction === 'add'
+        ? newInstruction === 'add'
           ? 'remove'
           : 'add'
-        : instruction;
+        : newInstruction;
 
-    this.commentsService.manageScore(this.comment().id, action);
-
-    // Update the signals and button state
-    const newState =
-      action === instruction
-        ? lastInstruction === undefined
-          ? instruction
+    const newLastScoreInstruction =
+      action === newInstruction
+        ? lastScoreInstruction === undefined
+          ? newInstruction
           : undefined
         : undefined;
-    this.lastScoreInstructionSignal.set(newState);
-    this.updateButtonState(newState);
+
+    this.commentsService.manageScore(
+      this.comment().id,
+      action,
+      newLastScoreInstruction
+    );
+    this.lastScoreInstructionSignal.set(newLastScoreInstruction);
+    this.updateButtonState(newLastScoreInstruction);
   }
 
   private updateButtonState(instruction: string | undefined) {

@@ -166,13 +166,13 @@ export class CommentsService {
     );
   }
 
-  manageScore(id: number | undefined, instruction: string) {
+  manageScore(id: number | undefined, action: string ,lastScoreInstruction: string | undefined) {
     let publishedComments: any = this.publishedComments();
 
     publishedComments.forEach((element: IComment) => {
       element.replies?.forEach((childElement) => {
         if (childElement.id === id) {
-          switch (instruction) {
+          switch (action) {
             case 'add':
               childElement.score = childElement.score + 1;
               break;
@@ -182,11 +182,11 @@ export class CommentsService {
             default:
               break;
           }
-          childElement.lastScoreInstruction = instruction;
+          childElement.lastScoreInstruction = lastScoreInstruction;
         }
       });
       if (element.id === id) {
-        switch (instruction) {
+        switch (action) {
           case 'add':
             element.score = element.score + 1;
             break;
@@ -196,7 +196,7 @@ export class CommentsService {
           default:
             break;
         }
-        element.lastScoreInstruction = instruction;
+        element.lastScoreInstruction = lastScoreInstruction;
       }
     });
 
