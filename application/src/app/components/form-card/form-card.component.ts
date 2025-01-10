@@ -77,6 +77,15 @@ export class FormCardComponent implements OnInit {
     }
   }
 
+  submitOnEnter(event: any): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      if (this.formGroup.valid) {
+        this.conditionalSubmit();
+      }
+    }
+  }
+
   private publishComment() {
     let inputComment: string = this.formGroup.value.inputValue;
     this.formGroup.setValue({ inputValue: '' });

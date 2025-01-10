@@ -12,6 +12,7 @@
     type="text"
     placeholder="Add a comment..."
     wrap="hard"
+    (keydown.enter)="submitOnEnter($event)"
   ></textarea>
   @if (formGroup.controls["inputValue"].hasError("maxlength")) {
   <div class="error-text">
