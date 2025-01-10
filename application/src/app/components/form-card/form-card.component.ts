@@ -1,4 +1,12 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  OnInit,
+  Signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -23,7 +31,7 @@ import { EditFlagService } from '../../services/edit-flag.service';
   templateUrl: './form-card.component.html',
   styleUrl: './form-card.component.scss',
 })
-export class FormCardComponent {
+export class FormCardComponent implements OnInit {
   replyFlag = input<boolean>();
   editFlag = input<boolean>();
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
@@ -35,14 +43,14 @@ export class FormCardComponent {
   private commentIdToReply: Signal<number | undefined> = computed(() => {
     return this.idReferenceService.idReference();
   });
-
   formGroup: FormGroup = new FormGroup({
     inputValue: new FormControl('', [
       Validators.required,
-      Validators.maxLength(300),
       Validators.pattern(/\S/),
+      Validators.maxLength(300),
     ]),
   });
+  textAreaInput = viewChild<ElementRef<HTMLTextAreaElement>>('textArea');
 
   constructor(
     private userSerivce: UserService,
@@ -52,6 +60,12 @@ export class FormCardComponent {
     private replyFlagService: ReplyFlagService,
     private editFlagService: EditFlagService
   ) {}
+
+  ngOnInit(): void {
+    if (this.editFlag() || this.replyFlag()) {
+      this.textAreaInput()?.nativeElement.focus();
+    }
+  }
 
   conditionalSubmit() {
     if (this.editFlag()) {

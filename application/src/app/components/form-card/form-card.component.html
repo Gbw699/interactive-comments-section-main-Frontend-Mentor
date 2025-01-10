@@ -5,6 +5,7 @@
 >
   <label for="text-area" hidden="true">Label for text-area input</label>
   <textarea
+    #textArea
     id="text-area"
     name="comment-input"
     formControlName="inputValue"
@@ -12,12 +13,7 @@
     placeholder="Add a comment..."
     wrap="hard"
   ></textarea>
-  @if (formGroup.controls["inputValue"].touched &&
-  formGroup.controls["inputValue"].hasError("required")) {
-  <div class="error-text">
-    <span>This is required</span>
-  </div>
-  } @if (formGroup.controls["inputValue"].hasError("maxlength")) {
+  @if (formGroup.controls["inputValue"].hasError("maxlength")) {
   <div class="error-text">
     <span>It must have less than 300 characters</span>
   </div>
@@ -32,7 +28,7 @@
       alt="Current user image"
     />
   </div>
-  @if (!formGroup.controls["inputValue"].hasError("required") &&
+  @if ( !formGroup.controls["inputValue"].hasError("required") &&
   !formGroup.controls["inputValue"].hasError("maxlength") &&
   !formGroup.controls["inputValue"].hasError("pattern")) { @if (editFlag()) {
   <button class="btn" type="submit">UPDATE</button>
