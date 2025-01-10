@@ -3,9 +3,11 @@ import {
   computed,
   ElementRef,
   input,
+  OnChanges,
   OnInit,
   signal,
   Signal,
+  SimpleChanges,
   viewChild,
   WritableSignal,
 } from '@angular/core';
@@ -30,7 +32,7 @@ import { CustomDatePipe } from '../../pipes/custom-date.pipe';
   templateUrl: './comments-card.component.html',
   styleUrl: './comments-card.component.scss',
 })
-export class CommentsCardComponent implements OnInit {
+export class CommentsCardComponent implements OnInit ,OnChanges {
   comment = input.required<IComment>();
   parentId = input.required<number>();
   lastScoreInstruction = input<string | undefined>();
@@ -51,8 +53,13 @@ export class CommentsCardComponent implements OnInit {
     private editFlagService: EditFlagService,
     private deleteModalService: DeleteModalService
   ) {}
-
+  
   ngOnInit(): void {
+    let instruction = this.lastScoreInstruction();
+    this.updateButtonState(instruction);
+    this.lastScoreInstructionSignal.set(instruction);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
     let instruction = this.lastScoreInstruction();
     this.updateButtonState(instruction);
     this.lastScoreInstructionSignal.set(instruction);
