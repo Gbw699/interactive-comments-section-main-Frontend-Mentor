@@ -10,8 +10,11 @@
     gap: 1rem;
     align-items: center;
     padding: 2rem 0;
-    @media (min-width: $Computers) {
+    @media (min-width: $Small-Desktop) {
       grid-column: 4 / 10;
+    }
+    @media (min-width: $Desktop) {
+      grid-column: 5 / 9;
     }
     .comments-card {
       width: 100%;
@@ -22,12 +25,12 @@
       grid-auto-rows: 1fr;
       row-gap: 1rem;
       width: 100%;
-      @media (max-width: $Computers) {
+      @media (max-width: $Small-Desktop) {
         grid-template-columns: 0.5fr repeat(11, 1fr);
       }
       .line-container {
         grid-row: 1 / -1;
-        @media (min-width: $Computers) {
+        @media (min-width: $Small-Desktop) {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -95,7 +98,7 @@
           transform: scale(1);
         }
       }
-      @media (min-width: $Computers) {
+      @media (min-width: $Small-Desktop) {
         max-width: 390px;
       }
     }

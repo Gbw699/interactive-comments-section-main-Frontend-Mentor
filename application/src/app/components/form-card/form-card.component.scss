@@ -8,7 +8,7 @@
     "textArea textArea textArea"
     "errorTextArea errorTextArea errorTextArea"
     "userImgArea ... btnArea";
-  @media (min-width: $Computers) {
+  @media (min-width: $Small-Desktop) {
     grid-template-columns: fit-content(100%) auto fit-content(100%);
     grid-template-areas:
       "userImgArea textArea btnArea"
