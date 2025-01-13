@@ -5,15 +5,17 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class CustomDatePipe implements PipeTransform {
+  newDate = new Date();
   transform(value: Date): string {
-    let newDate = new Date();
+    console.log(this.newDate);
+    
     let dateFromNow = {
-      year: newDate.getUTCFullYear(),
-      month: newDate.getUTCMonth(),
-      date: newDate.getUTCDate(),
-      day: newDate.getUTCDay(),
-      hours: newDate.getUTCHours(),
-      minutes: newDate.getUTCMinutes(),
+      year: this.newDate.getUTCFullYear(),
+      month: this.newDate.getUTCMonth(),
+      date: this.newDate.getUTCDate(),
+      day: this.newDate.getUTCDay(),
+      hours: this.newDate.getUTCHours(),
+      minutes: this.newDate.getUTCMinutes(),
     };
     let dateToHandle = {
       year: value.getUTCFullYear(),

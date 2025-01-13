@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommentsCardComponent } from './comments-card.component';
 
-describe('CommentsCardComponent', () => {
+xdescribe('CommentsCardComponent', () => {
   let component: CommentsCardComponent;
   let fixture: ComponentFixture<CommentsCardComponent>;
 

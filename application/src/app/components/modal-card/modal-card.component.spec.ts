@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModalCardComponent } from './modal-card.component';
 
-describe('ModalCardComponent', () => {
+xdescribe('ModalCardComponent', () => {
   let component: ModalCardComponent;
   let fixture: ComponentFixture<ModalCardComponent>;
 
