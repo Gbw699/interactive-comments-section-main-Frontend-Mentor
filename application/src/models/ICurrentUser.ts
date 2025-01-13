@@ -1,8 +1,4 @@
 export interface ICurrentUser {
-  currentUser: CurrentUser;
-}
-
-interface CurrentUser {
   image: Image;
   username: string;
 }

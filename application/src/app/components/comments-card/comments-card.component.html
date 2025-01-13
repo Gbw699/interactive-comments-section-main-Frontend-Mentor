@@ -4,7 +4,7 @@
       <img src="{{ comment().user.image.webp }}" alt="User image" />
     </div>
     <strong class="user-name">{{ comment().user.username }}</strong>
-    @if (currentUser()?.currentUser?.username === comment().user.username) {
+    @if (currentUser()?.username === comment().user.username) {
     <p class="label">you</p>
     }
     <p class="publication-time">{{ comment().createdAt | customDate }}</p>
@@ -25,7 +25,7 @@
       <img src="../assets/images/icon-minus.svg" alt="Button to take a like" />
     </div>
   </div>
-  @if (currentUser()?.currentUser?.username === comment().user.username) {
+  @if (currentUser()?.username === comment().user.username) {
   <div class="crud-btn-container">
     <div class="crud-btn" (click)="deleteComment(comment().id)">
       <div class="img">

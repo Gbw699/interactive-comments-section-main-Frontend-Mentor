@@ -36,13 +36,12 @@ export class CommentsService {
             'publishedComments',
             JSON.stringify([...value.comments])
           );
-          console.log(this.publishedComments());
         });
     }
   }
 
   addComment(comment: string) {
-    let currentUser: any = this.user.currentUser()?.currentUser;
+    let currentUser: any = this.user.currentUser();
     let publishedComments: any = this.publishedComments();
     let lastId = this.getLastId(publishedComments);
 
@@ -98,7 +97,7 @@ export class CommentsService {
     userToReply: string | undefined,
     comment: string
   ) {
-    let currentUser: any = this.user.currentUser()?.currentUser;
+    let currentUser: any = this.user.currentUser();
     let publishedComments: any = this.publishedComments();
     let lastId = this.getLastId(publishedComments);
 
@@ -166,7 +165,11 @@ export class CommentsService {
     );
   }
 
-  manageScore(id: number | undefined, action: string ,lastScoreInstruction: string | undefined) {
+  manageScore(
+    id: number | undefined,
+    action: string,
+    lastScoreInstruction: string | undefined
+  ) {
     let publishedComments: any = this.publishedComments();
 
     publishedComments.forEach((element: IComment) => {
