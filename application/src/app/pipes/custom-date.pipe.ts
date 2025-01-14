@@ -7,8 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CustomDatePipe implements PipeTransform {
   newDate = new Date();
   transform(value: Date): string {
-    console.log(this.newDate);
-    
     let dateFromNow = {
       year: this.newDate.getUTCFullYear(),
       month: this.newDate.getUTCMonth(),

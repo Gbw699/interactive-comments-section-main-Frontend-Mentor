@@ -21,6 +21,8 @@ export class CommentsService {
     );
 
     if (publishedCommentsInStorageObject !== null) {
+      console.log('hola');
+
       publishedCommentsInStorageObject = this.adjustCreatedAtProperty(
         publishedCommentsInStorageObject
       );
