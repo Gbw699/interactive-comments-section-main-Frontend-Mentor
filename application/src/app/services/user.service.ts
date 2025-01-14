@@ -14,7 +14,7 @@ export class UserService {
     this.http
       .get('http://localhost:4200/assets/data.json')
       .subscribe((value: any) => {
-        this.currentUser.set({ currentUser: { ...value.currentUser } });
+        this.currentUser.set({ ...value.currentUser });
         console.log(this.currentUser());
       });
   }
