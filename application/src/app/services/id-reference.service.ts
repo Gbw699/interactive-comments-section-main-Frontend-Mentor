@@ -4,7 +4,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
   providedIn: 'root',
 })
 export class IdReferenceService {
-  idReference: WritableSignal<number | undefined> = signal(undefined);
+  idReference: WritableSignal<number> = signal(0);
 
   constructor() {}
 

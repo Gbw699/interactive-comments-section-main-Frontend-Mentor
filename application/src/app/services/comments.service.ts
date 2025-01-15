@@ -79,7 +79,7 @@ export class CommentsService {
     );
   }
 
-  editComment(id: number | undefined, comment: string) {
+  editComment(id: number, comment: string) {
     let publishedComments: any = this.publishedComments();
 
     let newPublishedComments: IComment[] = [...publishedComments];

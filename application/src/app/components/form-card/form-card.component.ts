@@ -40,7 +40,7 @@ export class FormCardComponent implements OnInit {
   private userToReply: Signal<string | undefined> = computed(() => {
     return this.userToReplySerivce.userToReply();
   });
-  private commentIdToReply: Signal<number | undefined> = computed(() => {
+  private commentIdToReply: Signal<number> = computed(() => {
     return this.idReferenceService.idReference();
   });
   formGroup: FormGroup = new FormGroup({
