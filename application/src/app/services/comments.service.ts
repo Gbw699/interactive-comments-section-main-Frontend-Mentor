@@ -4,6 +4,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { IComment } from '../../models/IComment';
 
 import { UserService } from './user.service';
+import { CommentDateAdjustmentService } from './comment-date-adjustment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,11 @@ import { UserService } from './user.service';
 export class CommentsService {
   publishedComments: WritableSignal<IComment[] | undefined> = signal(undefined);
 
-  constructor(private http: HttpClient, private user: UserService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private userService: UserService,
+    private commentDateAdjusmentService: CommentDateAdjustmentService
+  ) {}
 
   fetchComments() {
     let publishedCommentsInStorageJson: any =
@@ -21,17 +26,20 @@ export class CommentsService {
     );
 
     if (publishedCommentsInStorageObject !== null) {
-      console.log('hola');
-
-      publishedCommentsInStorageObject = this.adjustCreatedAtProperty(
-        publishedCommentsInStorageObject
-      );
+      publishedCommentsInStorageObject =
+        this.commentDateAdjusmentService.adjustCreatedAtProperty(
+          publishedCommentsInStorageObject
+        );
       this.publishedComments.set([...publishedCommentsInStorageObject]);
     } else {
-      this.http
+      this.httpClient
         .get('http://localhost:4200/assets/data.json')
         .subscribe((value: any) => {
-          value.comments = this.adjustCreatedAtProperty(value.comments);
+          value.comments = [
+            ...this.commentDateAdjusmentService.adjustCreatedAtProperty(
+              value.comments
+            ),
+          ];
 
           this.publishedComments.set([...value.comments]);
           localStorage.setItem(
@@ -43,7 +51,7 @@ export class CommentsService {
   }
 
   addComment(comment: string) {
-    let currentUser: any = this.user.currentUser();
+    let currentUser: any = this.userService.currentUser();
     let publishedComments: any = this.publishedComments();
     let lastId = this.getLastId(publishedComments);
 
@@ -99,7 +107,7 @@ export class CommentsService {
     userToReply: string | undefined,
     comment: string
   ) {
-    let currentUser: any = this.user.currentUser();
+    let currentUser: any = this.userService.currentUser();
     let publishedComments: any = this.publishedComments();
     let lastId = this.getLastId(publishedComments);
 
@@ -227,16 +235,5 @@ export class CommentsService {
     });
 
     return lastKnownId;
-  }
-
-  private adjustCreatedAtProperty(publishedComments: IComment[]) {
-    publishedComments.forEach((element) => {
-      element.replies?.forEach((chieldElement) => {
-        chieldElement.createdAt = new Date(chieldElement.createdAt);
-      });
-      element.createdAt = new Date(element.createdAt);
-    });
-
-    return publishedComments;
   }
 }
