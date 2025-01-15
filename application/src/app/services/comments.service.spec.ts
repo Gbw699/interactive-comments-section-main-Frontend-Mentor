@@ -1,65 +1,95 @@
-import { CommentsService } from './comments.service';
-import { data } from '../../assets/data';
+import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
+
 import { IComment } from '../../models/IComment';
-import { defer, delay, Observable, of } from 'rxjs';
-import { fakeAsync, tick } from '@angular/core/testing';
+
+import { data } from '../../assets/data';
+
+import { CommentDateAdjustmentService } from './comment-date-adjustment.service';
+import { UserService } from './user.service';
+import { CommentsService } from './comments.service';
 
 describe('CommentsService', () => {
-  let mockHttpClient = jasmine.createSpyObj(['get']);
-  let mockUserService = jasmine.createSpyObj(['currentUser']);
-  // let mockLocalStorage = jasmine.createSpyObj(['getItem', 'setItem']);
-  let mockDataComments: IComment[] = data.comments;
   let service: CommentsService;
+  let mockHttpClient: any;
+  let mockCommentDateAdjustmentService: any;
+  let mockUserService: any;
+  let mockDataComments: IComment[] = data.comments;
 
   beforeEach(() => {
-    localStorage.clear();
-    service = new CommentsService(mockHttpClient, mockUserService);
+    mockCommentDateAdjustmentService = jasmine.createSpyObj([
+      'adjustCreatedAtProperty',
+    ]);
+    mockUserService = jasmine.createSpyObj(['currentUser']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        CommentsService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: CommentDateAdjustmentService,
+          useValue: mockCommentDateAdjustmentService,
+        },
+        {
+          provide: UserService,
+          useValue: mockUserService,
+        },
+      ],
+    });
+
+    service = TestBed.inject(CommentsService);
+    mockHttpClient = TestBed.inject(HttpTestingController);
+
+    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      if (key === 'publishedComments') {
+        return null;
+      }
+      return null;
+    });
+    spyOn(localStorage, 'setItem').and.stub();
   });
 
   describe('fetchComments', () => {
-    it('If data is available in local storage, the state should be initialized using that information', () => {
-      localStorage.setItem(
+    it('Should fetch comments from HTTP and update the signal when localStorage is empty', () => {
+      mockCommentDateAdjustmentService.adjustCreatedAtProperty.and.returnValue(
+        mockDataComments
+      );
+
+      service.fetchComments();
+
+      mockHttpClient
+        .expectOne('http://localhost:4200/assets/data.json')
+        .flush({ comments: mockDataComments });
+
+      expect(
+        mockCommentDateAdjustmentService.adjustCreatedAtProperty
+      ).toHaveBeenCalledWith(mockDataComments);
+      expect(service.publishedComments()).toEqual(mockDataComments);
+      expect(localStorage.setItem).toHaveBeenCalledWith(
         'publishedComments',
         JSON.stringify(mockDataComments)
       );
-
-      service.fetchComments();
-
-      expect(mockHttpClient.get).not.toHaveBeenCalledWith(
-        'http://localhost:4200/assets/data.json'
-      );
-
-      expect(service.publishedComments()).toEqual(
-        adjustCreatedAtProperty(mockDataComments)
-      );
     });
 
-    it('If data is unavailable in local storage, the state should be initialized by making an HTTP request to retrieve the information from a local JSON file', (done: DoneFn) => {
-      localStorage.clear();
-
-      mockHttpClient.get.and.returnValue(asyncData(mockDataComments));
+    it('Should load comments from localStorage if they exist', () => {
+      (localStorage.getItem as jasmine.Spy).and.returnValue(
+        JSON.stringify(mockDataComments)
+      );
+      mockCommentDateAdjustmentService.adjustCreatedAtProperty.and.returnValue(
+        mockDataComments
+      );
 
       service.fetchComments();
 
-      setTimeout(() => {
-       expect(service.publishedComments()).toEqual(adjustCreatedAtProperty(mockDataComments))
-        done();
-      });
+      expect(
+        mockCommentDateAdjustmentService.adjustCreatedAtProperty
+      ).toHaveBeenCalledWith(mockDataComments);
+      expect(service.publishedComments()).toEqual(mockDataComments);
     });
   });
 });
-
-function asyncData<T>(data: T) {
-  return defer(() => Promise.resolve(data));
-}
-
-function adjustCreatedAtProperty(publishedComments: IComment[]) {
-  publishedComments.forEach((element) => {
-    element.replies?.forEach((chieldElement) => {
-      chieldElement.createdAt = new Date(chieldElement.createdAt);
-    });
-    element.createdAt = new Date(element.createdAt);
-  });
-
-  return publishedComments;
-}
