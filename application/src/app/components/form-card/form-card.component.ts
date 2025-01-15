@@ -37,7 +37,7 @@ export class FormCardComponent implements OnInit {
   currentUser: Signal<ICurrentUser | undefined> = computed(() => {
     return this.userSerivce.currentUser();
   });
-  private userToReply: Signal<string | undefined> = computed(() => {
+  private userToReply: Signal<string> = computed(() => {
     return this.userToReplySerivce.userToReply();
   });
   private commentIdToReply: Signal<number> = computed(() => {

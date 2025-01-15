@@ -4,7 +4,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
   providedIn: 'root',
 })
 export class UserToReplyService {
-  userToReply: WritableSignal<string | undefined> = signal(undefined);
+  userToReply: WritableSignal<string> = signal('');
 
   constructor() {}
 

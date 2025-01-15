@@ -102,11 +102,7 @@ export class CommentsService {
     );
   }
 
-  replyComment(
-    id: number | undefined,
-    userToReply: string | undefined,
-    comment: string
-  ) {
+  replyComment(id: number, userToReply: string, comment: string) {
     let currentUser: any = this.userService.currentUser();
     let publishedComments: any = this.publishedComments();
     let lastId = this.getLastId(publishedComments);
