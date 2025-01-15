@@ -113,4 +113,34 @@ describe('CommentsService', () => {
       );
     });
   });
+
+  describe('editComment', () => {
+    it('Should update the comment identified by the given ID', () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.editComment(1, 'This comment is for testing');
+
+      expect(service.publishedComments()?.[0].content).toBe(
+        'This comment is for testing'
+      );
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'publishedComments',
+        JSON.stringify(service.publishedComments())
+      );
+    });
+
+    it('Should update the child comment identified by the given ID', () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.editComment(4, 'This comment is for testing');
+
+      expect(service.publishedComments()?.[1].replies?.[1].content).toBe(
+        'This comment is for testing'
+      );
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'publishedComments',
+        JSON.stringify(service.publishedComments())
+      );
+    });
+  });
 });
