@@ -12,12 +12,14 @@ import { data } from '../../assets/data';
 import { CommentDateAdjustmentService } from './comment-date-adjustment.service';
 import { UserService } from './user.service';
 import { CommentsService } from './comments.service';
+import { ICurrentUser } from '../../models/ICurrentUser';
 
 describe('CommentsService', () => {
   let service: CommentsService;
   let mockHttpClient: any;
   let mockCommentDateAdjustmentService: any;
   let mockUserService: any;
+  let mockDataCurrentUser: ICurrentUser = data.currentUser;
   let mockDataComments: IComment[] = data.comments;
 
   beforeEach(() => {
@@ -90,6 +92,25 @@ describe('CommentsService', () => {
         mockCommentDateAdjustmentService.adjustCreatedAtProperty
       ).toHaveBeenCalledWith(mockDataComments);
       expect(service.publishedComments()).toEqual(mockDataComments);
+    });
+  });
+
+  describe('addComment', () => {
+    it('Should add a new comment to the state', () => {
+      mockUserService.currentUser.and.returnValue(mockDataCurrentUser);
+      service.publishedComments.set(mockDataComments);
+
+      expect(service.publishedComments()?.length).toBe(2);
+      service.addComment('This comment is for testing');
+
+      expect(service.publishedComments()?.length).toBe(3);
+      expect(service.publishedComments()?.[2].content).toBe(
+        'This comment is for testing'
+      );
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'publishedComments',
+        JSON.stringify(service.publishedComments())
+      );
     });
   });
 });
