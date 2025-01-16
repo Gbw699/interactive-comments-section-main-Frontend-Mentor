@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-
 import { ReplyFlagService } from './reply-flag.service';
 
-xdescribe('ReplyFlagService', () => {
+describe('ReplyFlagService', () => {
   let service: ReplyFlagService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ReplyFlagService);
+    service = new ReplyFlagService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('setReplyFlag', () => {
+    it('Should update the reply flag with a new boolean value', () => {
+      service.setReplyFlag(true);
+
+      expect(service.replyFlag()).toBe(true);
+    });
   });
 });
