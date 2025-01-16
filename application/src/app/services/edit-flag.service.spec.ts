@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-
 import { EditFlagService } from './edit-flag.service';
 
-xdescribe('EditFlagService', () => {
+describe('EditFlagService', () => {
   let service: EditFlagService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(EditFlagService);
+    service = new EditFlagService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('setEditFlag', () => {
+    it('Should update the edit flag state with a new boolean value', () => {
+      service.setEditFlag(true);
+
+      expect(service.editFlag()).toBe(true);
+    });
   });
 });
