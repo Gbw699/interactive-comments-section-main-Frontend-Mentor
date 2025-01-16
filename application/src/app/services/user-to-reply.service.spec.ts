@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-
 import { UserToReplyService } from './user-to-reply.service';
 
-xdescribe('UserToReplyService', () => {
+describe('UserToReplyService', () => {
   let service: UserToReplyService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(UserToReplyService);
+    service = new UserToReplyService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('setUserToReply', () => {
+    it('Should update the user to reply state with a new value', () => {
+      service.setUserToReply('value for testing');
+
+      expect(service.userToReply()).toBe('value for testing');
+    });
   });
 });
