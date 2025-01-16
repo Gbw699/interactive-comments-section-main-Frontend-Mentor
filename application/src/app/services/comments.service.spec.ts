@@ -6,14 +6,13 @@ import {
 } from '@angular/common/http/testing';
 
 import { IComment } from '../../models/IComment';
+import { ICurrentUser } from '../../models/ICurrentUser';
 
 import { data } from '../../assets/data';
 
 import { CommentDateAdjustmentService } from './comment-date-adjustment.service';
 import { UserService } from './user.service';
 import { CommentsService } from './comments.service';
-import { ICurrentUser } from '../../models/ICurrentUser';
-import { signal, WritableSignal } from '@angular/core';
 
 describe('CommentsService', () => {
   let service: CommentsService;

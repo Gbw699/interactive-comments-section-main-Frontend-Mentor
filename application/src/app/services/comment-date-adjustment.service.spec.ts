@@ -1,16 +1,25 @@
-import { TestBed } from '@angular/core/testing';
+import { IComment } from '../../models/IComment';
+
+import { data } from '../../assets/data';
 
 import { CommentDateAdjustmentService } from './comment-date-adjustment.service';
 
 describe('CommentDateAdjustmentService', () => {
   let service: CommentDateAdjustmentService;
+  let mockDataComments: IComment[];
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(CommentDateAdjustmentService);
+    mockDataComments = data.comments;
+
+    service = new CommentDateAdjustmentService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('adjustCreatedAtProperty', () => {
+    it('Should convert the createdAt property of each comment to a Date object format', () => {
+      let result = service.adjustCreatedAtProperty(mockDataComments);
+
+      expect(result[0].createdAt.getFullYear()).toBe(2024);
+      expect(result[1].replies[1].createdAt.getFullYear()).toBe(2025);
+    });
   });
 });
