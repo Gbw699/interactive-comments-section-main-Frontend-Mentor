@@ -92,11 +92,11 @@ describe('CommentsService', () => {
       mockUserService.currentUser.and.returnValue(mockDataCurrentUser);
       service.publishedComments.set(mockDataComments);
 
-      expect(service.publishedComments()?.length).toBe(2);
+      expect(service.publishedComments()?.length).toBe(4);
       service.addComment('This comment is for testing add');
 
-      expect(service.publishedComments()?.length).toBe(3);
-      expect(service.publishedComments()?.[2].content).toBe(
+      expect(service.publishedComments()?.length).toBe(5);
+      expect(service.publishedComments()?.[4].content).toBe(
         'This comment is for testing add'
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -169,6 +169,50 @@ describe('CommentsService', () => {
       expect(service.publishedComments()?.[1].replies?.[2].replyingTo).toBe(
         'ramsesmiron'
       );
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'publishedComments',
+        JSON.stringify(service.publishedComments())
+      );
+    });
+  });
+
+  describe('deleteComment', () => {
+    it('Should delete the comment identified by the given ID ', () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.deleteComment(5);
+
+      let result: any = service
+        .publishedComments()
+        ?.some((element: IComment) => {
+          element.replies.some((chieldElement: IComment) => {
+            return chieldElement.id === 5 ? true : false;
+          });
+          return element.id === 5 ? true : false;
+        });
+
+      expect(result).toBe(false);
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'publishedComments',
+        JSON.stringify(service.publishedComments())
+      );
+    });
+
+    it('Should delete the child comment identified by the given ID', () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.deleteComment(7);
+
+      let result: any = service
+        .publishedComments()
+        ?.some((element: IComment) => {
+          element.replies.some((chieldElement: IComment) => {
+            return chieldElement.id === 7 ? true : false;
+          });
+          return element.id === 7 ? true : false;
+        });
+
+      expect(result).toBe(false);
       expect(localStorage.setItem).toHaveBeenCalledWith(
         'publishedComments',
         JSON.stringify(service.publishedComments())

@@ -70,5 +70,48 @@ export const data: any = {
         },
       ],
     },
+    {
+      id: 5,
+      content: 'Comment to delete',
+      createdAt: '2024-12-07T14:16:45.421Z',
+      score: 5,
+      user: {
+        image: {
+          png: './assets/images/avatars/image-amyrobson.png',
+          webp: './assets/images/avatars/image-amyrobson.webp',
+        },
+        username: 'amyrobson',
+      },
+      replies: [],
+    },
+    {
+      id: 6,
+      content: 'This is a message created for testing',
+      createdAt: '2024-12-07T14:16:45.421Z',
+      score: 5,
+      user: {
+        image: {
+          png: './assets/images/avatars/image-amyrobson.png',
+          webp: './assets/images/avatars/image-amyrobson.webp',
+        },
+        username: 'amyrobson',
+      },
+      replies: [
+        {
+          id: 7,
+          content: 'Chield comment to delete',
+          createdAt: '2024-12-07T14:16:45.421Z',
+          score: 5,
+          user: {
+            image: {
+              png: './assets/images/avatars/image-amyrobson.png',
+              webp: './assets/images/avatars/image-amyrobson.webp',
+            },
+            username: 'amyrobson',
+          },
+          replies: [],
+        },
+      ],
+    },
   ],
 };
