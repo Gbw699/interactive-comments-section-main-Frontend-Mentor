@@ -1,16 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-
 import { IdReferenceService } from './id-reference.service';
 
-xdescribe('IdReferenceService', () => {
+describe('IdReferenceService', () => {
   let service: IdReferenceService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(IdReferenceService);
+    service = new IdReferenceService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('setIdReference', () => {
+    it('Should update the id reference state with a new value', () => {
+      service.setIdReference(10);
+
+      expect(service.idReference()).toBe(10);
+    });
   });
 });
