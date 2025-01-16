@@ -219,4 +219,47 @@ describe('CommentsService', () => {
       );
     });
   });
+
+  describe('manageScore', () => {
+    it("Should increase the total score by 1 when the action is 'add'.", () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.manageScore(1, 'add', 'add');
+
+      expect(service.publishedComments()?.[0].score).toBe(13);
+      expect(service.publishedComments()?.[0].lastScoreInstruction).toBe('add');
+
+      service.manageScore(4, 'add', 'remove');
+
+      expect(service.publishedComments()?.[1].replies[1].score).toBe(3);
+      expect(
+        service.publishedComments()?.[1].replies[1].lastScoreInstruction
+      ).toBe('remove');
+
+      service.manageScore(4, 'null', 'remove');
+      expect(service.publishedComments()?.[1].replies[1].score).toBe(3);
+    });
+
+    it("Should decrease the total score by 1 when the action is 'remove'.", () => {
+      service.publishedComments.set(mockDataComments);
+
+      service.manageScore(2, 'remove', 'remove');
+
+      expect(service.publishedComments()?.[1].score).toBe(14);
+      expect(service.publishedComments()?.[1].lastScoreInstruction).toBe(
+        'remove'
+      );
+
+      service.manageScore(3, 'remove', 'add');
+
+      expect(service.publishedComments()?.[1].replies[0].score).toBe(3);
+      expect(
+        service.publishedComments()?.[1].replies[0].lastScoreInstruction
+      ).toBe('add');
+
+      service.manageScore(2, 'null', 'remove');
+
+      expect(service.publishedComments()?.[1].score).toBe(14);
+    });
+  });
 });
