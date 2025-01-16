@@ -2,15 +2,18 @@ import { TestBed } from '@angular/core/testing';
 
 import { DeleteModalService } from './delete-modal.service';
 
-xdescribe('DeleteModalService', () => {
+describe('DeleteModalService', () => {
   let service: DeleteModalService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(DeleteModalService);
+    service = new DeleteModalService();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('setCommentIdToDelete', () => {
+    it('Should update the delete state with the ID of the comment to be deleted', () => {
+      service.setCommentIdToDelete(3);
+
+      expect(service.commentIdToDelete()).toBe(3);
+    });
   });
 });
