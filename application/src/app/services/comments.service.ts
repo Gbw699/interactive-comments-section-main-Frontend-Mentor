@@ -26,10 +26,12 @@ export class CommentsService {
     );
 
     if (publishedCommentsInStorageObject !== null) {
-      publishedCommentsInStorageObject =
-        this.commentDateAdjusmentService.adjustCreatedAtProperty(
+      publishedCommentsInStorageObject = [
+        ...this.commentDateAdjusmentService.adjustCreatedAtProperty(
           publishedCommentsInStorageObject
-        );
+        ),
+      ];
+
       this.publishedComments.set([...publishedCommentsInStorageObject]);
     } else {
       this.httpClient
@@ -120,6 +122,7 @@ export class CommentsService {
         },
         username: currentUser.username,
       },
+      replies: [],
     };
 
     let newPublishedComments: IComment[] = [...publishedComments];
@@ -138,10 +141,7 @@ export class CommentsService {
 
     newPublishedComments.forEach((element) => {
       if (element.id === parentId) {
-        element.replies = [
-          ...(element.replies ? element.replies : []),
-          newReplyComment,
-        ];
+        element.replies = [...element.replies, newReplyComment];
       }
     });
 
