@@ -32,7 +32,7 @@ import { CustomDatePipe } from '../../pipes/custom-date.pipe';
   templateUrl: './comments-card.component.html',
   styleUrl: './comments-card.component.scss',
 })
-export class CommentsCardComponent implements OnInit ,OnChanges {
+export class CommentsCardComponent implements OnInit, OnChanges {
   comment = input.required<IComment>();
   parentId = input.required<number>();
   lastScoreInstruction = input<string | undefined>();
@@ -53,7 +53,7 @@ export class CommentsCardComponent implements OnInit ,OnChanges {
     private editFlagService: EditFlagService,
     private deleteModalService: DeleteModalService
   ) {}
-  
+
   ngOnInit(): void {
     let instruction = this.lastScoreInstruction();
     this.updateButtonState(instruction);
@@ -71,15 +71,15 @@ export class CommentsCardComponent implements OnInit ,OnChanges {
     this.replyFlagService.setReplyFlag(false);
   }
 
+  deleteComment(id: number) {
+    this.deleteModalService.setCommentIdToDelete(id);
+  }
+
   setStatesToReply(userToReply: string) {
     this.idReferenceService.setIdReference(this.comment().id);
     this.userToReplyService.setUserToReply(userToReply);
     this.replyFlagService.setReplyFlag(true);
     this.editFlagService.setEditFlag(false);
-  }
-
-  deleteComment(id: number) {
-    this.deleteModalService.setCommentIdToDelete(id);
   }
 
   manageScore(newInstruction: string) {
