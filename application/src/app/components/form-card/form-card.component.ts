@@ -77,9 +77,8 @@ export class FormCardComponent implements OnInit {
     }
   }
 
-  submitOnEnter(event: any): void {
+  submitOnEnter(event: KeyboardEvent | any): void {
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
       if (this.formGroup.valid) {
         this.conditionalSubmit();
       }
