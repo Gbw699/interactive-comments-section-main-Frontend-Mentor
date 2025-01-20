@@ -39,13 +39,7 @@ export class AppComponent implements OnInit {
     return this.commentsService
       .publishedComments()
       ?.sort((comment1, comment2) => {
-        if (comment1.score > comment2.score) {
-          return -1;
-        } else if (comment1.score < comment2.score) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return comment2.score - comment1.score;
       });
   });
   commentIdToDelete: Signal<number | undefined> = computed(() => {
@@ -57,10 +51,9 @@ export class AppComponent implements OnInit {
   editFlag: Signal<boolean> = computed(() => {
     return this.editFlagService.editFlag();
   });
-  idReference = computed(() => {
+  idReference: Signal<number> = computed(() => {
     return this.idReferenceService.idReference();
   });
-  isOpen = computed(() => !!this.commentIdToDelete());
   modalRef = viewChild<ElementRef<HTMLDivElement>>('modal');
 
   constructor(
