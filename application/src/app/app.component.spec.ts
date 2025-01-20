@@ -1,29 +1,111 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+import { IData } from '../models/IData';
+
+import { CommentsService } from './services/comments.service';
+import { UserService } from './services/user.service';
+import { DeleteModalService } from './services/delete-modal.service';
+import { ReplyFlagService } from './services/reply-flag.service';
+import { EditFlagService } from './services/edit-flag.service';
+import { IdReferenceService } from './services/id-reference.service';
+
+import { data } from '../assets/data';
+
 import { AppComponent } from './app.component';
 
-xdescribe('AppComponent', () => {
+import { CommentDateAdjustmentService } from './services/comment-date-adjustment.service';
+
+describe('AppComponent', () => {
+  let mockCommentsService: any;
+  let mockUserService: any;
+  let mockDeleteModalService: any;
+  let mockReplyFlagService: any;
+  let mockEditFlagService: any;
+  let mockIdReferenceService: any;
+  let mockData: IData = data;
+  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent;
+
   beforeEach(async () => {
+    mockCommentsService = jasmine.createSpyObj([
+      'publishedComments',
+      'fetchComments',
+    ]);
+    mockUserService = jasmine.createSpyObj(['currentUser', 'fetchCurrentUser']);
+    mockDeleteModalService = jasmine.createSpyObj([
+      'commentIdToDelete',
+      'setCommentIdToDelete',
+    ]);
+    mockReplyFlagService = jasmine.createSpyObj(['replyFlag']);
+    mockEditFlagService = jasmine.createSpyObj(['editFlag']);
+    mockIdReferenceService = jasmine.createSpyObj(['idReference']);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: CommentsService, useValue: mockCommentsService },
+        { provide: UserService, useValue: mockUserService },
+        { provide: DeleteModalService, useValue: mockDeleteModalService },
+        { provide: ReplyFlagService, useValue: mockReplyFlagService },
+        { provide: EditFlagService, useValue: mockEditFlagService },
+        { provide: IdReferenceService, useValue: mockIdReferenceService },
+      ],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+
+    let commentDateAdjusmentService = new CommentDateAdjustmentService();
+
+    mockCommentsService.publishedComments.and.returnValue(
+      commentDateAdjusmentService.adjustCreatedAtProperty(mockData.comments)
+    );
+    mockDeleteModalService.commentIdToDelete.and.returnValue(undefined);
+    mockReplyFlagService.replyFlag.and.returnValue(false);
+    mockEditFlagService.editFlag.and.returnValue(true);
+    mockIdReferenceService.idReference.and.returnValue(1);
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  describe('ngOnInit', () => {
+    it('Should fetch comments and user on initialization', () => {
+      fixture.detectChanges();
+
+      expect(mockCommentsService.fetchComments).toHaveBeenCalled();
+      expect(mockUserService.fetchCurrentUser).toHaveBeenCalled();
+      expect(mockIdReferenceService.idReference).toHaveBeenCalled();
+    });
   });
 
-  it(`should have the 'application' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('application');
-  });
+  describe('closeModal', () => {
+    it('Should not close modal when clicking inside of modal', () => {
+      mockDeleteModalService.commentIdToDelete.and.returnValue(1);
+      fixture.detectChanges();
+      let modalContainer = fixture.debugElement.query(
+        By.css('.modal-container')
+      );
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, application');
+      modalContainer.triggerEventHandler('click', {
+        clientX: 300,
+        clientY: 500,
+      });
+      expect(
+        mockDeleteModalService.setCommentIdToDelete
+      ).not.toHaveBeenCalled();
+    });
+
+    it('Should close modal when clicking outside of modal', () => {
+      mockDeleteModalService.commentIdToDelete.and.returnValue(1);
+      fixture.detectChanges();
+      let modalContainer = fixture.debugElement.query(
+        By.css('.modal-container')
+      );
+
+      modalContainer.triggerEventHandler('click', {
+        clientX: 30,
+        clientY: 500,
+      });
+      expect(mockDeleteModalService.setCommentIdToDelete).toHaveBeenCalled();
+    });
   });
 });
