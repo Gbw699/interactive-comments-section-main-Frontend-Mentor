@@ -9,7 +9,9 @@ describe('CommentDateAdjustmentService', () => {
   let mockDataComments: IComment[];
 
   beforeEach(() => {
-    mockDataComments = data.comments;
+    mockDataComments = data.comments.sort((comment1: any, comment2: any) => {
+      return comment2.score - comment1.score;
+    });
 
     service = new CommentDateAdjustmentService();
   });
@@ -19,7 +21,7 @@ describe('CommentDateAdjustmentService', () => {
       let result = service.adjustCreatedAtProperty(mockDataComments);
 
       expect(result[0].createdAt.getFullYear()).toBe(2024);
-      expect(result[1].replies[1].createdAt.getFullYear()).toBe(2025);
+      expect(result[0].replies[0].createdAt.getDate()).toBe(31);
     });
   });
 });

@@ -25,7 +25,9 @@ describe('CommentsService', () => {
   beforeEach(() => {
     mockUserService = jasmine.createSpyObj(['currentUser']);
     mockDataCurrentUser = data.currentUser;
-    mockDataComments = data.comments;
+    mockDataComments = data.comments.sort((comment1: any, comment2: any) => {
+      return comment2.score - comment1.score;
+    });
 
     TestBed.configureTestingModule({
       providers: [
@@ -111,7 +113,7 @@ describe('CommentsService', () => {
 
       service.editComment(1, 'This comment is for testing edit1');
 
-      expect(service.publishedComments()?.[0].content).toBe(
+      expect(service.publishedComments()?.[1].content).toBe(
         'This comment is for testing edit1'
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -125,7 +127,7 @@ describe('CommentsService', () => {
 
       service.editComment(4, 'This comment is for testing edit2');
 
-      expect(service.publishedComments()?.[1].replies?.[1].content).toBe(
+      expect(service.publishedComments()?.[0].replies?.[1].content).toBe(
         'This comment is for testing edit2'
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -146,7 +148,7 @@ describe('CommentsService', () => {
         'This comment is for testing reply1'
       );
 
-      expect(service.publishedComments()?.[0].replies?.[0].replyingTo).toBe(
+      expect(service.publishedComments()?.[1].replies?.[0].replyingTo).toBe(
         'amyrobson'
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -165,7 +167,7 @@ describe('CommentsService', () => {
         'This comment is for testing reply2'
       );
 
-      expect(service.publishedComments()?.[1].replies?.[2].replyingTo).toBe(
+      expect(service.publishedComments()?.[0].replies?.[2].replyingTo).toBe(
         'ramsesmiron'
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -225,18 +227,18 @@ describe('CommentsService', () => {
 
       service.manageScore(1, 'add', 'add');
 
-      expect(service.publishedComments()?.[0].score).toBe(13);
-      expect(service.publishedComments()?.[0].lastScoreInstruction).toBe('add');
+      expect(service.publishedComments()?.[1].score).toBe(13);
+      expect(service.publishedComments()?.[1].lastScoreInstruction).toBe('add');
 
       service.manageScore(4, 'add', 'remove');
 
-      expect(service.publishedComments()?.[1].replies[1].score).toBe(3);
+      expect(service.publishedComments()?.[0].replies[1].score).toBe(3);
       expect(
-        service.publishedComments()?.[1].replies[1].lastScoreInstruction
+        service.publishedComments()?.[0].replies[1].lastScoreInstruction
       ).toBe('remove');
 
       service.manageScore(4, 'null', 'remove');
-      expect(service.publishedComments()?.[1].replies[1].score).toBe(3);
+      expect(service.publishedComments()?.[0].replies[1].score).toBe(3);
     });
 
     it("Should decrease the total score by 1 when the action is 'remove'.", () => {
@@ -244,21 +246,21 @@ describe('CommentsService', () => {
 
       service.manageScore(2, 'remove', 'remove');
 
-      expect(service.publishedComments()?.[1].score).toBe(14);
-      expect(service.publishedComments()?.[1].lastScoreInstruction).toBe(
+      expect(service.publishedComments()?.[0].score).toBe(14);
+      expect(service.publishedComments()?.[0].lastScoreInstruction).toBe(
         'remove'
       );
 
       service.manageScore(3, 'remove', 'add');
 
-      expect(service.publishedComments()?.[1].replies[0].score).toBe(3);
+      expect(service.publishedComments()?.[0].replies[0].score).toBe(3);
       expect(
-        service.publishedComments()?.[1].replies[0].lastScoreInstruction
+        service.publishedComments()?.[0].replies[0].lastScoreInstruction
       ).toBe('add');
 
       service.manageScore(2, 'null', 'remove');
 
-      expect(service.publishedComments()?.[1].score).toBe(14);
+      expect(service.publishedComments()?.[0].score).toBe(14);
     });
   });
 });
