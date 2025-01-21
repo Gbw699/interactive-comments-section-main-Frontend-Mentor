@@ -2,15 +2,21 @@
   <div class="flex-container">
     @for (item of publishedCommnets(); track $index) {
     <app-comments-card
-      class="comments-card"
+      class="comments-card comment-animation"
       [comment]="item"
       [parentId]="item.id"
       [lastScoreInstruction]="item.lastScoreInstruction"
     ></app-comments-card>
     @if(replyFlag() && idReference() === item.id){
-    <app-form-card class="form-card animation" [replyFlag]="replyFlag()"></app-form-card>
+    <app-form-card
+      class="form-card form-animation"
+      [replyFlag]="replyFlag()"
+    ></app-form-card>
     } @else if(editFlag() && idReference() === item.id){
-    <app-form-card class="form-card animation" [editFlag]="editFlag()"></app-form-card>
+    <app-form-card
+      class="form-card form-animation"
+      [editFlag]="editFlag()"
+    ></app-form-card>
     } @if (item.replies? item.replies.length : 0 > 0) {
     <div class="replys-container">
       <div class="line-container">
@@ -19,19 +25,19 @@
       <div class="replies-cards">
         @for (replyItem of item.replies; track $index) {
         <app-comments-card
-          class="comments-card"
+          class="comments-card comment-animation"
           [comment]="replyItem"
           [parentId]="item.id"
           [lastScoreInstruction]="replyItem.lastScoreInstruction"
         ></app-comments-card>
         @if(replyFlag() && idReference() === replyItem.id){
         <app-form-card
-          class="form-card animation"
+          class="form-card form-animation"
           [replyFlag]="replyFlag()"
         ></app-form-card>
         } @else if(editFlag() && idReference() === replyItem.id){
         <app-form-card
-          class="form-card animation"
+          class="form-card form-animation"
           [editFlag]="editFlag()"
         ></app-form-card>
         } }
