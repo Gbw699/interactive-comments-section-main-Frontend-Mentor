@@ -13,7 +13,7 @@ export class UserService {
   fetchCurrentUser() {
     this.http
       // .get('http://localhost:4200/assets/data.json')
-      .get('https://interactive-comments-section-main-frontend-mentor.vercel.app/assets/data.json')
+      .get('/browser/assets/data.json')
       .subscribe((value: any) => {
         this.currentUser.set({ ...value.currentUser });
       });
