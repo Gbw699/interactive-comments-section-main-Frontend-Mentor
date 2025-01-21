@@ -35,7 +35,8 @@ export class CommentsService {
       this.publishedComments.set([...publishedCommentsInStorageObject]);
     } else {
       this.httpClient
-        .get('http://localhost:4200/assets/data.json')
+        // .get('http://localhost:4200/assets/data.json')
+        .get('https://interactive-comments-section-main-frontend-mentor.vercel.app/assets/data.json')
         .subscribe((value: any) => {
           value.comments = [
             ...this.commentDateAdjusmentService.adjustCreatedAtProperty(
