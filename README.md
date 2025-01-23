@@ -51,4 +51,4 @@ Users should be able to:
 ## Author
 
 - Frontend Mentor - [@Gbw699](https://www.frontendmentor.io/profile/Gbw699)
-- Twitter - [@Gabriel Barimboim](https://www.linkedin.com/in/gabriel-barimboim/)
+- Linkedin - [@Gabriel Barimboim](https://www.linkedin.com/in/gabriel-barimboim/)
