@@ -28,7 +28,7 @@ describe('UserService', () => {
       service.fetchCurrentUser();
 
       httpTestingController
-        .expectOne('http://localhost:4200/assets/data.json')
+        .expectOne('./assets/data.json')
         .flush(data);
 
       expect(service.currentUser()?.username).toBe('juliusomo');

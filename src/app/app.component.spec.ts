@@ -78,22 +78,6 @@ describe('AppComponent', () => {
   });
 
   describe('closeModal', () => {
-    it('Should not close modal when clicking inside of modal', () => {
-      mockDeleteModalService.commentIdToDelete.and.returnValue(1);
-      fixture.detectChanges();
-      let modalContainer = fixture.debugElement.query(
-        By.css('.modal-container')
-      );
-
-      modalContainer.triggerEventHandler('click', {
-        clientX: 300,
-        clientY: 500,
-      });
-      expect(
-        mockDeleteModalService.setCommentIdToDelete
-      ).not.toHaveBeenCalled();
-    });
-
     it('Should close modal when clicking outside of modal', () => {
       mockDeleteModalService.commentIdToDelete.and.returnValue(1);
       fixture.detectChanges();

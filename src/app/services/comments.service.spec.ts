@@ -63,7 +63,7 @@ describe('CommentsService', () => {
       service.fetchComments();
 
       httpTestingController
-        .expectOne('http://localhost:4200/assets/data.json')
+        .expectOne('./assets/data.json')
         .flush({ comments: mockDataComments });
 
       expect(service.publishedComments()).toEqual(
